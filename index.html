@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pollos Vidal - Pollo Broaster y Spiedo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">Pollos Vidal</div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="badge">¡El sabor más crujiente!</span>
+
+            <h1 class="titulo-animado">
+                Disfruta del mejor
+                <span>Pollo Broaster</span>
+                y
+                <span>Spiedo</span>
+            </h1>
+
+            <p>
+                Jugoso por dentro, ultra crujiente por fuera.
+                Preparado con la receta secreta de la casa para alegrar tu día.
+            </p>
+        </div>
+    </section>
+
+    <section class="menu">
+        <h2>Nuestras Especialidades</h2>
+
+        <div class="productos-grid">
+
+            <!-- POLLO BROASTER -->
+            <div class="card">
+                <img src="tu-foto-broaster.jpg"
+                     alt="Foto de pollo broaster"
+                     class="foto-pollo">
+
+                <div class="card-content">
+                    <h3>Pollo Broaster</h3>
+
+                    <p>
+                        Empanizado crujiente y dorado a la perfección,
+                        acompañado de papas fritas y ensalada fresca.
+                    </p>
+
+                    <span class="precio">Bs. 25</span>
+
+                    <button class="btn-pedir" onclick="pedirProducto('Pollo Broaster')">
+                        Pedir ahora
+                    </button>
+                </div>
+            </div>
+
+            <!-- POLLO SPIEDO -->
+            <div class="card">
+                <img src="tu-foto-spiedo.jpg"
+                     alt="Foto de pollo al spiedo"
+                     class="foto-pollo">
+
+                <div class="card-content">
+                    <h3>Pollo al Spiedo</h3>
+
+                    <p>
+                        Asado lentamente a las brasas, jugoso,
+                        lleno de sabor tradicional y con un aroma único.
+                    </p>
+
+                    <span class="precio">Bs. 30</span>
+
+                    <button class="btn-pedir" onclick="pedirProducto('Pollo al Spiedo')">
+                        Pedir ahora
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Pollos Vidal. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
