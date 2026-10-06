@@ -2,8 +2,8 @@
    CONFIGURACIÓN - CAMBIA ESTOS DATOS POR LOS REALES
    ===================================================== */
 const CONFIG = {
-    telefono: "59170000000",              // Número con código de país, sin + ni espacios
-    telefonoVisible: "+591 70000000",     // Cómo se muestra en la página
+    telefono: "59164800385",              // Número con código de país, sin + ni espacios
+    telefonoVisible: "+591 64800385",     // Cómo se muestra en la página
     direccion: "Ver ubicación en Google Maps",   // Texto del enlace (puedes escribir tu dirección: "Av. ... #...")
     coordenadas: "-17.464823,-66.128996",       // Ubicación exacta del local
     enlaceMapa: "https://maps.app.goo.gl/6kdsTAnHDXnfAr1j9",
