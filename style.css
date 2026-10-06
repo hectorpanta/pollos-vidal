@@ -1,0 +1,592 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #fdfbf7;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+section {
+    scroll-margin-top: 10px;
+}
+
+/* ---------- HEADER ---------- */
+.header {
+    background-color: #d84315;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.logo {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.nav {
+    margin-top: 10px;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+.hamburguesa {
+    display: none;
+    background: none;
+    border: 2px solid white;
+    color: white;
+    font-size: 24px;
+    border-radius: 8px;
+    padding: 2px 12px;
+    cursor: pointer;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+}
+
+.estado {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #eeeeee;
+    color: #333333;
+}
+
+.estado.abierto {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.estado.cerrado {
+    background-color: #333333;
+    color: white;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.hero p {
+    color: #555555;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.badge {
+    background-color: #ff9800;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.titulo-animado {
+    font-size: 35px;
+    color: #333333;
+    animation-name: aparecer;
+    animation-duration: 1.5s;
+}
+
+.hero span {
+    color: #d84315;
+}
+
+.hero .badge {
+    color: white;
+}
+
+.boton {
+    display: inline-block;
+    background-color: #d84315;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 28px;
+    border-radius: 25px;
+    margin: 10px 5px 0 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.boton:hover {
+    background-color: #bf360c;
+    transform: translateY(-3px);
+}
+
+.boton-whatsapp {
+    background-color: #25d366;
+}
+
+.boton-whatsapp:hover {
+    background-color: #1ebe5d;
+}
+
+@keyframes aparecer {
+    from { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* ---------- SECCIONES GENERALES ---------- */
+.menu,
+.promos,
+.nosotros,
+.ubicacion,
+.contacto {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.nota {
+    color: #777777;
+    font-size: 14px;
+    margin-top: 25px;
+}
+
+.subtitulo {
+    color: #d84315;
+    margin-top: 50px;
+}
+
+/* ---------- TARJETAS ---------- */
+.productos-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: white;
+    width: 300px;
+    border: 2px solid #eeeeee;
+    border-radius: 15px;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
+    border-color: #d84315;
+}
+
+.foto-pollo {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #e0e0e0;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-content h3 {
+    color: #d84315;
+}
+
+.card-content p {
+    color: #555555;
+    line-height: 1.4;
+}
+
+.precio {
+    color: #2e7d32;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.btn-agregar {
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-agregar:hover {
+    background-color: #e68900;
+}
+
+/* ---------- PROMOS ---------- */
+.promo-card {
+    background-color: #fff3e0;
+    border: 2px dashed #ff9800;
+    border-radius: 15px;
+    width: 280px;
+    padding: 20px;
+}
+
+.promo-card h3 {
+    color: #d84315;
+    margin-top: 0;
+}
+
+.promo-card p {
+    color: #555555;
+}
+
+/* ---------- EXTRAS ---------- */
+.extras {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.extra-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: white;
+    border: 2px solid #eeeeee;
+    border-radius: 12px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.extra-item span:first-child {
+    flex: 1;
+    color: #333333;
+}
+
+.btn-agregar.mini {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+/* ---------- NOSOTROS ---------- */
+.nosotros p,
+.contacto p {
+    max-width: 650px;
+    margin: 0 auto 15px auto;
+    color: #555555;
+    line-height: 1.6;
+}
+
+/* ---------- UBICACIÓN ---------- */
+.ubicacion-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.horarios {
+    flex: 1 1 300px;
+    text-align: left;
+}
+
+.horarios h3 {
+    color: #d84315;
+}
+
+.horarios table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.horarios td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eeeeee;
+    color: #555555;
+}
+
+.horarios tr.hoy td {
+    background-color: #fff3e0;
+    color: #d84315;
+    font-weight: bold;
+}
+
+.direccion {
+    color: #333333;
+    margin-top: 20px;
+}
+
+.direccion a {
+    color: #d84315;
+    font-weight: bold;
+}
+
+.mapa {
+    flex: 1 1 350px;
+}
+
+.mapa iframe {
+    width: 100%;
+    height: 300px;
+    border: 2px solid #eeeeee;
+    border-radius: 15px;
+}
+
+/* ---------- CONTACTO ---------- */
+.contacto a {
+    color: #d84315;
+    font-weight: bold;
+}
+
+.contacto a.boton {
+    color: white;
+}
+
+.redes {
+    margin-top: 25px;
+}
+
+.redes a {
+    margin: 0 12px;
+    text-decoration: none;
+}
+
+.redes a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+/* ---------- WHATSAPP FLOTANTE ---------- */
+.wsp-flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    z-index: 50;
+    transition: transform 0.3s;
+}
+
+.wsp-flotante img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.icono-wsp {
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.wsp-flotante:hover {
+    transform: scale(1.1);
+}
+
+/* ---------- CARRITO ---------- */
+.btn-carrito {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #d84315;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    z-index: 50;
+}
+
+.panel-carrito {
+    position: fixed;
+    top: 0;
+    right: -380px;
+    width: 340px;
+    max-width: 90%;
+    height: 100%;
+    background-color: white;
+    box-shadow: -4px 0px 15px rgba(0,0,0,0.3);
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s;
+}
+
+.panel-carrito.abierto {
+    right: 0;
+}
+
+.panel-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-cabecera h3 {
+    color: #d84315;
+    margin: 0;
+}
+
+.panel-cabecera button {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.carrito-lista {
+    flex: 1;
+    overflow-y: auto;
+    margin: 15px 0;
+}
+
+.carrito-vacio {
+    color: #777777;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eeeeee;
+    color: #333333;
+}
+
+.carrito-item .nombre {
+    flex: 1;
+    font-size: 14px;
+}
+
+.carrito-item button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ff9800;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.carrito-total {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: right;
+    color: #333333;
+}
+
+.boton-ancho {
+    width: 100%;
+    margin: 0;
+}
+
+.vaciar {
+    background: none;
+    border: none;
+    color: #777777;
+    margin-top: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* ---------- ANIMACIÓN AL HACER SCROLL ---------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s, transform 0.8s;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .titulo-animado {
+        animation: none;
+    }
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ---------- CELULAR ---------- */
+@media (max-width: 700px) {
+    .hamburguesa {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 15px;
+    }
+
+    .nav.abierto {
+        display: flex;
+    }
+
+    .nav a {
+        margin: 0;
+    }
+
+    .titulo-animado {
+        font-size: 28px;
+    }
+}

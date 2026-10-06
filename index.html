@@ -4,82 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pollos Vidal - Pollo Broaster y Spiedo</title>
+    <meta name="description" content="Pollos Vidal: el mejor pollo broaster y pollo al spiedo. Pide por WhatsApp, a domicilio o visítanos.">
     <link rel="stylesheet" href="style.css">
-</head>
 
+    <!-- Datos para Google (SEO): CAMBIA los datos por los reales -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Pollos Vidal",
+      "servesCuisine": "Pollo broaster, Pollo al spiedo",
+      "telephone": "+59170000000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "BO"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -17.464823,
+        "longitude": -66.128996
+      },
+      "hasMap": "https://maps.app.goo.gl/6kdsTAnHDXnfAr1j9",
+      "openingHours": "Mo-Su 11:00-20:00"
+    }
+    </script>
+</head>
 <body>
 
     <header class="header">
         <div class="logo">Pollos Vidal</div>
+        <button class="hamburguesa" id="btn-menu" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <nav class="nav" id="nav">
+            <a href="#inicio">Inicio</a>
+            <a href="#menu">Menú</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#ubicacion">Ubicación</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+        <div class="estado" id="estado">Cargando horario...</div>
     </header>
 
-    <section class="hero">
+    <section class="hero" id="inicio">
         <div class="hero-content">
             <span class="badge">¡El sabor más crujiente!</span>
-
-            <h1 class="titulo-animado">
-                Disfruta del mejor
-                <span>Pollo Broaster</span>
-                y
-                <span>Spiedo</span>
-            </h1>
-
-            <p>
-                Jugoso por dentro, ultra crujiente por fuera.
-                Preparado con la receta secreta de la casa para alegrar tu día.
-            </p>
+            <h1 class="titulo-animado">Disfruta del mejor <span>Pollo Broaster</span> y <span>Spiedo</span></h1>
+            <p>Jugoso por dentro, ultra crujiente por fuera. Preparado con la receta secreta de la casa para alegrar tu día.</p>
+            <a href="#menu" class="boton">Ver nuestro menú</a>
+            <a href="#" class="boton boton-whatsapp js-whatsapp"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Pedir por WhatsApp</a>
         </div>
     </section>
 
-    <section class="menu">
+    <!-- MENÚ -->
+    <section class="menu reveal" id="menu">
         <h2>Nuestras Especialidades</h2>
-
         <div class="productos-grid">
 
-            <!-- POLLO BROASTER -->
+            <!-- Producto 1 -->
             <div class="card">
-                <img src="tu-foto-broaster.jpg"
-                     alt="Foto de pollo broaster"
-                     class="foto-pollo">
-
+                <img class="foto-pollo" src="img/broaster.png" alt="Plato de Pollo Broaster con arroz, tallarín y papas">
                 <div class="card-content">
                     <h3>Pollo Broaster</h3>
-
-                    <p>
-                        Empanizado crujiente y dorado a la perfección,
-                        acompañado de papas fritas y ensalada fresca.
-                    </p>
-
-                    <span class="precio">Bs. 25</span>
-
-                    <button class="btn-pedir" onclick="pedirProducto('Pollo Broaster')">
-                        Pedir ahora
-                    </button>
+                    <p>Empanizado crujiente y dorado a la perfección, acompañado de arroz, tallarín y papas fritas.</p>
+                    <span class="precio">17 Bs</span>
+                    <button class="btn-agregar" data-nombre="Pollo Broaster" data-precio="17">+ Agregar al pedido</button>
                 </div>
             </div>
 
-            <!-- POLLO SPIEDO -->
+            <!-- Producto 2 -->
             <div class="card">
-                <img src="tu-foto-spiedo.jpg"
-                     alt="Foto de pollo al spiedo"
-                     class="foto-pollo">
-
+                <img class="foto-pollo" src="img/spiedo.png" alt="Plato de Pollo al Spiedo con arroz, tallarín y papas">
                 <div class="card-content">
                     <h3>Pollo al Spiedo</h3>
-
-                    <p>
-                        Asado lentamente a las brasas, jugoso,
-                        lleno de sabor tradicional y con un aroma único.
-                    </p>
-
-                    <span class="precio">Bs. 30</span>
-
-                    <button class="btn-pedir" onclick="pedirProducto('Pollo al Spiedo')">
-                        Pedir ahora
-                    </button>
+                    <p>Asado lentamente a las brasas, jugoso, lleno de sabor tradicional y con un aroma único.</p>
+                    <span class="precio">17 Bs</span>
+                    <button class="btn-agregar" data-nombre="Pollo al Spiedo" data-precio="17">+ Agregar al pedido</button>
                 </div>
             </div>
 
+            <!-- Producto 3 -->
+            <div class="card">
+                <img class="foto-pollo" src="img/combo.png" alt="Combo Familiar de Pollo Broaster y Spiedo con acompañamientos">
+                <div class="card-content">
+                    <h3>Combo Familiar</h3>
+                    <p>1 pollo entero (broaster o spiedo) con acompañamientos a elección. Ideal para compartir en familia.</p>
+                    <span class="precio">90 Bs</span>
+                    <button class="btn-agregar" data-nombre="Combo Familiar" data-precio="90">+ Agregar al pedido</button>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="nota"> Servicio a domicilio disponible. Consulta las zonas de cobertura y el costo del envío por WhatsApp.</p>
+    </section>
+
+
+    <!-- NOSOTROS -->
+    <section class="nosotros reveal" id="nosotros">
+        <h2>Sobre Nosotros</h2>
+        <p>En Pollos Vidal preparamos cada día pollo fresco con una receta que hemos perfeccionado con los años. Nuestro broaster sale crujiente y dorado, y nuestro spiedo se asa lentamente para conservar todo su jugo y sabor.</p>
+        <p>Queremos que cada visita se sienta como comer en casa: porciones generosas, buen precio y atención con cariño.</p>
+    </section>
+
+    <!-- UBICACIÓN Y HORARIOS -->
+    <section class="ubicacion reveal" id="ubicacion">
+        <h2>Visítanos</h2>
+        <div class="ubicacion-grid">
+            <div class="horarios">
+                <h3>Horarios de atención</h3>
+                <table id="tabla-horarios"></table>
+                <p class="direccion"><a id="direccion-texto" href="#" target="_blank" rel="noopener"></a></p>
+            </div>
+            <div class="mapa">
+                <iframe id="mapa" title="Mapa de Pollos Vidal" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="contacto reveal" id="contacto">
+        <h2>Contáctanos</h2>
+        <p><a href="#" id="enlace-telefono"></a></p>
+        <a href="#" class="boton boton-whatsapp js-whatsapp"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Escribir por WhatsApp</a>
+        <div class="redes">
+            <!-- CAMBIA los # por tus enlaces reales -->
+            <a href="#" target="_blank" rel="noopener">Facebook</a>
+            <a href="#" target="_blank" rel="noopener">Instagram</a>
+            <a href="#" target="_blank" rel="noopener">TikTok</a>
         </div>
     </section>
 
@@ -87,7 +137,25 @@
         <p>&copy; 2026 Pollos Vidal. Todos los derechos reservados.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="#" class="wsp-flotante js-whatsapp" aria-label="Escribir por WhatsApp"><img src="icono/whatsapp.png" alt="WhatsApp"></a>
 
+    <!-- CARRITO -->
+    <button class="btn-carrito" id="btn-carrito" aria-label="Ver mi pedido">
+        🛒 Mi pedido (<span id="carrito-cantidad">0</span>)
+    </button>
+
+    <aside class="panel-carrito" id="panel-carrito" aria-hidden="true">
+        <div class="panel-cabecera">
+            <h3>Mi pedido</h3>
+            <button id="cerrar-carrito" aria-label="Cerrar">✕</button>
+        </div>
+        <div id="carrito-lista" class="carrito-lista"></div>
+        <div class="carrito-total">Total: <strong id="carrito-total">0 Bs</strong></div>
+        <button class="boton boton-whatsapp boton-ancho" id="enviar-pedido"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Enviar pedido por WhatsApp</button>
+        <button class="vaciar" id="vaciar-carrito">Vaciar pedido</button>
+    </aside>
+
+    <script src="script.js"></script>
 </body>
 </html>
