@@ -11,13 +11,13 @@ const CONFIG = {
     // Horarios por día: [apertura, cierre] en formato 24h, o null si cierra
     // Orden: Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado
     horarios: [
-        ["11:00", "21:00"],   // Domingo
-        ["11:00", "21:00"],   // Lunes
-        ["11:00", "21:00"],   // Martes
-        ["11:00", "21:00"],   // Miércoles
-        ["11:00", "21:00"],   // Jueves
-        ["11:00", "21:00"],   // Viernes
-        ["11:00", "21:00"]    // Sábado
+        ["11:00 am", "21:00 pm"],   // Domingo
+        ["11:00 am", "21:00 pm"],   // Lunes
+        ["11:00 am", "21:00 pm"],   // Martes
+        ["11:00 am", "21:00 pm"],   // Miércoles
+        ["11:00 am", "21:00 pm"],   // Jueves
+        ["11:00 am", "21:00 pm"],   // Viernes
+        ["11:00 am", "21:00 pm"]    // Sábado
     ]
 };
 
