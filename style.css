@@ -21,10 +21,51 @@ section {
     position: relative;
 }
 
+/* ---------- LOGO ---------- */
 .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
     color: white;
     font-size: 30px;
     font-weight: bold;
+}
+
+.logo-img {
+    height: 70px;
+    width: 70px;
+    object-fit: contain;
+    background-color: white;
+    border-radius: 50%;
+    padding: 4px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.3s;
+}
+
+.logo:hover .logo-img {
+    transform: rotate(-8deg) scale(1.08);
+}
+
+.logo-hero {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 15px auto;
+    animation-name: aparecer;
+    animation-duration: 1.5s;
+}
+
+.logo-footer {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background-color: white;
+    border-radius: 50%;
+    padding: 4px;
+    display: block;
+    margin: 0 auto 10px auto;
 }
 
 .nav {
@@ -557,7 +598,8 @@ footer {
         transform: none;
         transition: none;
     }
-    .titulo-animado {
+    .titulo-animado,
+    .logo-hero {
         animation: none;
     }
     html {
@@ -588,5 +630,19 @@ footer {
 
     .titulo-animado {
         font-size: 28px;
+    }
+
+    .logo-img {
+        height: 55px;
+        width: 55px;
+    }
+
+    .logo-texto {
+        font-size: 24px;
+    }
+
+    .logo-hero {
+        width: 130px;
+        height: 130px;
     }
 }

@@ -1,29 +1,24 @@
-/* =====================================================
-   CONFIGURACIÓN - CAMBIA ESTOS DATOS POR LOS REALES
-   ===================================================== */
 const CONFIG = {
-    telefono: "59164800385",              // Número con código de país, sin + ni espacios
-    telefonoVisible: "+591 64800385",     // Cómo se muestra en la página
-    direccion: "Ver ubicación en Google Maps",   // Texto del enlace (puedes escribir tu dirección: "Av. ... #...")
-    coordenadas: "-17.464823,-66.128996",       // Ubicación exacta del local
+    telefono: "59164800385",              
+    telefonoVisible: "+591 64800385",
+    direccion: "Ver ubicación en Google Maps",   
+    coordenadas: "-17.464823,-66.128996",       
     enlaceMapa: "https://maps.app.goo.gl/6kdsTAnHDXnfAr1j9",
     mensajeBase: "Hola Pollos Vidal, quiero hacer un pedido.",
-    // Horarios por día: [apertura, cierre] en formato 24h, o null si cierra
-    // Orden: Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado
+
     horarios: [
-        ["11:00 am", "21:00 pm"],   // Domingo
-        ["11:00 am", "21:00 pm"],   // Lunes
-        ["11:00 am", "21:00 pm"],   // Martes
-        ["11:00 am", "21:00 pm"],   // Miércoles
-        ["11:00 am", "21:00 pm"],   // Jueves
-        ["11:00 am", "21:00 pm"],   // Viernes
-        ["11:00 am", "21:00 pm"]    // Sábado
+        ["11:00 am", "20:00 pm"],
+        ["11:00 am", "20:00 pm"],   
+        ["11:00 am", "20:00 pm"],   
+        ["11:00 am", "20:00 pm"],   
+        ["11:00 am", "20:00 pm"],   
+        ["11:00 am", "20:00 pm"],   
+        ["11:00 am", "20:00 pm"]    
     ]
 };
 
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-/* ---------- WhatsApp ---------- */
 function enlaceWhatsApp(mensaje) {
     return "https://wa.me/" + CONFIG.telefono + "?text=" + encodeURIComponent(mensaje);
 }
@@ -38,7 +33,6 @@ const enlaceTel = document.getElementById("enlace-telefono");
 enlaceTel.textContent = CONFIG.telefonoVisible;
 enlaceTel.href = "tel:+" + CONFIG.telefono;
 
-/* ---------- Dirección y mapa ---------- */
 const enlaceDireccion = document.getElementById("direccion-texto");
 enlaceDireccion.textContent = CONFIG.direccion;
 enlaceDireccion.href = CONFIG.enlaceMapa;

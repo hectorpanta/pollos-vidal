@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pollos Vidal - Pollo Broaster y Spiedo</title>
     <meta name="description" content="Pollos Vidal: el mejor pollo broaster y pollo al spiedo. Pide por WhatsApp, a domicilio o visítanos.">
+
+    <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="style.css">
 
-    <!-- Datos para Google (SEO): CAMBIA los datos por los reales -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Restaurant",
       "name": "Pollos Vidal",
+      "image": "img/logo.png",
+      "logo": "img/logo.png",
       "servesCuisine": "Pollo broaster, Pollo al spiedo",
       "telephone": "+59164800385",
       "address": {
@@ -32,7 +35,11 @@
 <body>
 
     <header class="header">
-        <div class="logo">Pollos Vidal</div>
+        <!-- LOGO -->
+        <a href="#inicio" class="logo">
+            <img src="img/logo.png" alt="Logo de Pollos Vidal" class="logo-img">
+            <span class="logo-texto">Pollos Vidal</span>
+        </a>
         <button class="hamburguesa" id="btn-menu" aria-label="Abrir menú" aria-expanded="false">☰</button>
         <nav class="nav" id="nav">
             <a href="#inicio">Inicio</a>
@@ -46,6 +53,8 @@
 
     <section class="hero" id="inicio">
         <div class="hero-content">
+            <!-- LOGO GRANDE EN EL HERO -->
+            <img src="img/logo.png" alt="Pollos Vidal" class="logo-hero">
             <span class="badge">¡El sabor más crujiente!</span>
             <h1 class="titulo-animado">Disfruta del mejor <span>Pollo Broaster</span> y <span>Spiedo</span></h1>
             <p>Jugoso por dentro, ultra crujiente por fuera. Preparado con la receta secreta de la casa para alegrar tu día.</p>
@@ -134,6 +143,7 @@
     </section>
 
     <footer>
+        <img src="img/logo.png" alt="Logo de Pollos Vidal" class="logo-footer">
         <p>&copy; 2026 Pollos Vidal. Todos los derechos reservados.</p>
     </footer>
 
