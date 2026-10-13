@@ -6,6 +6,7 @@
     <title>Pollos Vidal - Pollo Broaster y Spiedo</title>
     <meta name="description" content="Pollos Vidal: el mejor pollo broaster y pollo al spiedo. Pide por WhatsApp, a domicilio o visítanos.">
 
+    <!-- ÍCONO DE LA PESTAÑA (LOGO) -->
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="style.css">
 
@@ -28,7 +29,7 @@
         "longitude": -66.128996
       },
       "hasMap": "https://maps.app.goo.gl/6kdsTAnHDXnfAr1j9",
-      "openingHours": "Mo-Su 11:00 am-10:00 pm"
+      "openingHours": "Mo-Su 12:00 am-08:00 pm"
     }
     </script>
 </head>
@@ -135,10 +136,6 @@
         <p><a href="#" id="enlace-telefono"></a></p>
         <a href="#" class="boton boton-whatsapp js-whatsapp"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Escribir por WhatsApp</a>
         <div class="redes">
-            <!-- CAMBIA los # por tus enlaces reales -->
-            <a href="#" target="_blank" rel="noopener">Facebook</a>
-            <a href="#" target="_blank" rel="noopener">Instagram</a>
-            <a href="#" target="_blank" rel="noopener">TikTok</a>
         </div>
     </section>
 
@@ -162,9 +159,35 @@
         </div>
         <div id="carrito-lista" class="carrito-lista"></div>
         <div class="carrito-total">Total: <strong id="carrito-total">0 Bs</strong></div>
-        <button class="boton boton-whatsapp boton-ancho" id="enviar-pedido"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Enviar pedido por WhatsApp</button>
+
+        <!-- MÉTODO DE PAGO -->
+        <fieldset class="metodo-pago">
+            <legend>Método de pago</legend>
+            <label><input type="radio" name="pago" value="Efectivo" checked> 💵 Efectivo</label>
+            <label><input type="radio" name="pago" value="QR"> 📱 QR</label>
+        </fieldset>
+
+        <button class="boton boton-whatsapp boton-ancho" id="enviar-pedido"><img class="icono-wsp" src="icono/whatsapp.png" alt=""><span id="texto-enviar">Enviar pedido por WhatsApp</span></button>
         <button class="vaciar" id="vaciar-carrito">Vaciar pedido</button>
     </aside>
+
+    <!-- VENTANA DE PAGO POR QR -->
+    <div class="modal-qr" id="modal-qr" aria-hidden="true">
+        <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="qr-titulo">
+            <button class="modal-cerrar" id="cerrar-qr" aria-label="Cerrar">✕</button>
+            <h3 id="qr-titulo">Paga con QR</h3>
+            <p class="qr-total">Total a pagar: <strong id="qr-total">0 Bs</strong></p>
+            <img id="qr-imagen" class="qr-imagen" src="img/qr-pago.png" alt="Código QR para pagar a Pollos Vidal">
+            <p id="qr-error" class="qr-error" hidden>No se pudo cargar el QR. Pídelo por WhatsApp.</p>
+            <ol class="qr-pasos">
+                <li>Abre la app de tu banco y escanea el QR.</li>
+                <li>Paga el monto exacto del pedido.</li>
+                <li>Envía tu pedido y el comprobante por WhatsApp.</li>
+            </ol>
+            <a href="img/qr-pago.png" download="qr-pollos-vidal.png" class="qr-descargar">Descargar QR</a>
+            <button class="boton boton-whatsapp boton-ancho" id="pagado-qr"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Ya pagué, enviar pedido</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

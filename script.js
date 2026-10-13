@@ -7,13 +7,14 @@ const CONFIG = {
     mensajeBase: "Hola Pollos Vidal, quiero hacer un pedido.",
 
     horarios: [
-        ["11:00 am", "20:00 pm"],
-        ["11:00 am", "20:00 pm"],   
-        ["11:00 am", "20:00 pm"],   
-        ["11:00 am", "20:00 pm"],   
-        ["11:00 am", "20:00 pm"],   
-        ["11:00 am", "20:00 pm"],   
-        ["11:00 am", "20:00 pm"]    
+        ["12:00 am", "20:00 pm"],   
+        ["12:00 am", "20:00 pm"],   
+        ["12:00 am", "20:00 pm"],   
+        ["12:00 am", "20:00 pm"],   
+        ["12:00 am", "20:00 pm"],   
+        ["12:00 am", "20:00 pm"],   
+        ["12:00 am", "20:00 pm"],   
+        ["12:00 am", "20:00 pm"]    
     ]
 };
 
@@ -127,9 +128,14 @@ function cerrarCarrito() {
     panel.setAttribute("aria-hidden", "true");
 }
 
+function calcularTotal() {
+    return Object.keys(carrito).reduce(function (suma, n) {
+        return suma + carrito[n].precio * carrito[n].cantidad;
+    }, 0);
+}
+
 function dibujarCarrito() {
     const nombres = Object.keys(carrito);
-    let total = 0;
     let cantidadTotal = 0;
 
     if (nombres.length === 0) {
@@ -137,7 +143,6 @@ function dibujarCarrito() {
     } else {
         lista.innerHTML = nombres.map(function (n) {
             const item = carrito[n];
-            total += item.precio * item.cantidad;
             cantidadTotal += item.cantidad;
             return '<div class="carrito-item">' +
                 '<span class="nombre">' + n + '</span>' +
@@ -149,7 +154,7 @@ function dibujarCarrito() {
         }).join("");
     }
 
-    document.getElementById("carrito-total").textContent = total + " Bs";
+    document.getElementById("carrito-total").textContent = calcularTotal() + " Bs";
     document.getElementById("carrito-cantidad").textContent = cantidadTotal;
 }
 
@@ -188,22 +193,87 @@ document.getElementById("vaciar-carrito").addEventListener("click", function () 
     dibujarCarrito();
 });
 
+/* ---------- Método de pago y QR ---------- */
+const modalQR = document.getElementById("modal-qr");
+const textoEnviar = document.getElementById("texto-enviar");
+
+function metodoPago() {
+    return document.querySelector('input[name="pago"]:checked').value;
+}
+
+function actualizarBotonEnviar() {
+    textoEnviar.textContent = metodoPago() === "QR"
+        ? "Pagar con QR"
+        : "Enviar pedido por WhatsApp";
+}
+
+document.querySelectorAll('input[name="pago"]').forEach(function (r) {
+    r.addEventListener("change", actualizarBotonEnviar);
+});
+
+function abrirQR() {
+    document.getElementById("qr-total").textContent = calcularTotal() + " Bs";
+    modalQR.classList.add("abierto");
+    modalQR.setAttribute("aria-hidden", "false");
+}
+
+function cerrarQR() {
+    modalQR.classList.remove("abierto");
+    modalQR.setAttribute("aria-hidden", "true");
+}
+
+// Si la imagen del QR no existe, avisar en vez de mostrar una imagen rota
+document.getElementById("qr-imagen").addEventListener("error", function () {
+    this.hidden = true;
+    document.getElementById("qr-error").hidden = false;
+});
+
+document.getElementById("cerrar-qr").addEventListener("click", cerrarQR);
+
+modalQR.addEventListener("click", function (e) {
+    if (e.target === modalQR) cerrarQR();
+});
+
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") cerrarQR();
+});
+
+/* ---------- Enviar pedido ---------- */
+function construirMensaje(pago) {
+    let mensaje = "Hola Pollos Vidal, quiero hacer este pedido:\n\n";
+    Object.keys(carrito).forEach(function (n) {
+        const item = carrito[n];
+        mensaje += "• " + item.cantidad + " x " + n + " = " + (item.precio * item.cantidad) + " Bs\n";
+    });
+    mensaje += "\nTotal: " + calcularTotal() + " Bs";
+    if (pago === "QR") {
+        mensaje += "\nMétodo de pago: QR (ya realicé el pago, te envío el comprobante)";
+    } else {
+        mensaje += "\nMétodo de pago: Efectivo";
+    }
+    return mensaje;
+}
+
+function enviarPedido(pago) {
+    window.open(enlaceWhatsApp(construirMensaje(pago)), "_blank");
+}
+
 document.getElementById("enviar-pedido").addEventListener("click", function () {
-    const nombres = Object.keys(carrito);
-    if (nombres.length === 0) {
+    if (Object.keys(carrito).length === 0) {
         alert("Agrega al menos un producto a tu pedido.");
         return;
     }
-    let total = 0;
-    let mensaje = "Hola Pollos Vidal, quiero hacer este pedido:\n\n";
-    nombres.forEach(function (n) {
-        const item = carrito[n];
-        const subtotal = item.precio * item.cantidad;
-        total += subtotal;
-        mensaje += "• " + item.cantidad + " x " + n + " = " + subtotal + " Bs\n";
-    });
-    mensaje += "\nTotal: " + total + " Bs";
-    window.open(enlaceWhatsApp(mensaje), "_blank");
+    if (metodoPago() === "QR") {
+        abrirQR();
+    } else {
+        enviarPedido("Efectivo");
+    }
+});
+
+document.getElementById("pagado-qr").addEventListener("click", function () {
+    enviarPedido("QR");
+    cerrarQR();
 });
 
 dibujarCarrito();
+actualizarBotonEnviar();
