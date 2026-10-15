@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pollos Vidal - Pollo Broaster y Spiedo</title>
-    <meta name="description" content="Pollos Vidal: el mejor pollo broaster y pollo al spiedo. Pide por WhatsApp, a domicilio o visítanos.">
+    <title>Pollos Vidal - Pollo Broaster y Pollo al Spiedo en Cochabamba</title>
+    <meta name="description" content="Pollos Vidal: pollo broaster y pollo al spiedo en Cochabamba. Pide por WhatsApp, a domicilio o visítanos.">
+    <script>document.documentElement.classList.add("js");</script>
 
-    <!-- ÍCONO DE LA PESTAÑA (LOGO) -->
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="style.css">
 
@@ -21,6 +21,8 @@
       "telephone": "+59164800385",
       "address": {
         "@type": "PostalAddress",
+        "addressLocality": "Cochabamba",
+        "addressRegion": "Cochabamba",
         "addressCountry": "BO"
       },
       "geo": {
@@ -29,153 +31,167 @@
         "longitude": -66.128996
       },
       "hasMap": "https://maps.app.goo.gl/6kdsTAnHDXnfAr1j9",
-      "openingHours": "Mo-Su 12:00 am-08:00 pm"
+      "openingHours": "Mo-Su 12:00-20:00"
     }
     </script>
 </head>
 <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
 
     <header class="header">
-        <!-- LOGO -->
         <a href="#inicio" class="logo">
-            <img src="img/logo.png" alt="Logo de Pollos Vidal" class="logo-img">
+            <img src="img/logo.png" alt="" class="logo-img">
             <span class="logo-texto">Pollos Vidal</span>
         </a>
-        <button class="hamburguesa" id="btn-menu" aria-label="Abrir menú" aria-expanded="false">☰</button>
-        <nav class="nav" id="nav">
+        <button class="hamburguesa" id="btn-menu" type="button" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav">☰</button>
+        <nav class="nav" id="nav" aria-label="Principal">
             <a href="#inicio">Inicio</a>
             <a href="#menu">Menú</a>
             <a href="#nosotros">Nosotros</a>
             <a href="#ubicacion">Ubicación</a>
             <a href="#contacto">Contacto</a>
         </nav>
-        <div class="estado" id="estado">Cargando horario...</div>
+        <div class="estado" id="estado" role="status">Cargando horario...</div>
     </header>
 
+    <main id="contenido">
     <section class="hero" id="inicio">
         <div class="hero-content">
-            <!-- LOGO GRANDE EN EL HERO -->
-            <img src="img/logo.png" alt="Pollos Vidal" class="logo-hero">
-            <span class="badge">¡El sabor más crujiente!</span>
-            <h1 class="titulo-animado">Disfruta del mejor <span>Pollo Broaster</span> y <span>Spiedo</span></h1>
-            <p>Jugoso por dentro, ultra crujiente por fuera. Preparado con la receta secreta de la casa para alegrar tu día.</p>
+            <img src="img/logo.png" alt="Logo de Pollos Vidal" class="logo-hero">
+            <span class="badge">Pollo broaster y pollo al spiedo</span>
+            <h1 class="titulo-animado">Pollo <span>Broaster</span> y <span>Spiedo</span> en Cochabamba</h1>
+            <p>Broaster empanizado y spiedo asado lentamente, con arroz, tallarín y papas. Pide por WhatsApp o visítanos.</p>
             <a href="#menu" class="boton">Ver nuestro menú</a>
             <a href="#" class="boton boton-whatsapp js-whatsapp"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Pedir por WhatsApp</a>
         </div>
     </section>
 
-    <!-- MENÚ -->
-    <section class="menu reveal" id="menu">
-        <h2>Nuestras Especialidades</h2>
+    <section class="menu reveal" id="menu" aria-labelledby="titulo-menu">
+        <h2 id="titulo-menu">Nuestras Especialidades</h2>
         <div class="productos-grid">
 
-            <!-- Producto 1 -->
             <div class="card">
-                <img class="foto-pollo" src="img/broaster.png" alt="Plato de Pollo Broaster con arroz, tallarín y papas">
+                <img class="foto-pollo" src="img/broaster.png" alt="Plato de pollo broaster con arroz, tallarín y papas fritas">
                 <div class="card-content">
                     <h3>Pollo Broaster</h3>
-                    <p>Empanizado crujiente y dorado a la perfección, acompañado de arroz, tallarín y papas fritas.</p>
+                    <p>Empanizado y frito, acompañado de arroz, tallarín y papas fritas.</p>
                     <span class="precio">17 Bs</span>
-                    <button class="btn-agregar" data-nombre="Pollo Broaster" data-precio="17">+ Agregar al pedido</button>
+                    <button class="btn-agregar" type="button" data-nombre="Pollo Broaster" data-precio="17" aria-label="Agregar Pollo Broaster al pedido, 17 bolivianos">+ Agregar al pedido</button>
                 </div>
             </div>
 
-            <!-- Producto 2 -->
             <div class="card">
-                <img class="foto-pollo" src="img/spiedo.png" alt="Plato de Pollo al Spiedo con arroz, tallarín y papas">
+                <img class="foto-pollo" src="img/spiedo.png" alt="Plato de pollo al spiedo con arroz, tallarín y papas">
                 <div class="card-content">
                     <h3>Pollo al Spiedo</h3>
-                    <p>Asado lentamente a las brasas, jugoso, lleno de sabor tradicional y con un aroma único.</p>
+                    <p>Asado lentamente, acompañado de arroz, tallarín y papas.</p>
                     <span class="precio">17 Bs</span>
-                    <button class="btn-agregar" data-nombre="Pollo al Spiedo" data-precio="17">+ Agregar al pedido</button>
+                    <button class="btn-agregar" type="button" data-nombre="Pollo al Spiedo" data-precio="17" aria-label="Agregar Pollo al Spiedo al pedido, 17 bolivianos">+ Agregar al pedido</button>
                 </div>
             </div>
 
-            <!-- Producto 3 -->
             <div class="card">
-                <img class="foto-pollo" src="img/combo.png" alt="Combo Familiar de Pollo Broaster y Spiedo con acompañamientos">
+                <img class="foto-pollo" src="img/combo.png" alt="Combo familiar de pollo entero con acompañamientos">
                 <div class="card-content">
                     <h3>Combo Familiar</h3>
-                    <p>1 pollo entero (broaster o spiedo) con acompañamientos a elección. Ideal para compartir en familia.</p>
+                    <p>1 pollo entero (broaster o spiedo) con acompañamientos a elección, para compartir.</p>
                     <span class="precio">90 Bs</span>
-                    <button class="btn-agregar" data-nombre="Combo Familiar" data-precio="90">+ Agregar al pedido</button>
+                    <button class="btn-agregar" type="button" data-nombre="Combo Familiar" data-precio="90" aria-label="Agregar Combo Familiar al pedido, 90 bolivianos">+ Agregar al pedido</button>
                 </div>
             </div>
 
         </div>
 
-        <p class="nota"> Servicio a domicilio disponible. Consulta las zonas de cobertura y el costo del envío por WhatsApp.</p>
+        <p class="nota">Precios en bolivianos (Bs). Las imágenes son referenciales. Servicio a domicilio disponible: consulta las zonas de cobertura y el costo del envío por WhatsApp antes de confirmar. Si tienes alergias, avísanos al pedir.</p>
     </section>
 
-
-    <!-- NOSOTROS -->
-    <section class="nosotros reveal" id="nosotros">
-        <h2>Sobre Nosotros</h2>
-        <p>En Pollos Vidal preparamos cada día pollo fresco con una receta que hemos perfeccionado con los años. Nuestro broaster sale crujiente y dorado, y nuestro spiedo se asa lentamente para conservar todo su jugo y sabor.</p>
-        <p>Queremos que cada visita se sienta como comer en casa: porciones generosas, buen precio y atención con cariño.</p>
+    <section class="nosotros reveal" id="nosotros" aria-labelledby="titulo-nosotros">
+        <h2 id="titulo-nosotros">Sobre Nosotros</h2>
+        <p>En Pollos Vidal preparamos pollo broaster, empanizado y frito, y pollo al spiedo, asado lentamente.</p>
+        <p>Queremos que cada visita se sienta como comer en casa: atención cercana y precios claros.</p>
     </section>
 
-    <!-- UBICACIÓN Y HORARIOS -->
-    <section class="ubicacion reveal" id="ubicacion">
-        <h2>Visítanos</h2>
+    <section class="ubicacion reveal" id="ubicacion" aria-labelledby="titulo-ubicacion">
+        <h2 id="titulo-ubicacion">Visítanos</h2>
         <div class="ubicacion-grid">
             <div class="horarios">
                 <h3>Horarios de atención</h3>
-                <table id="tabla-horarios"></table>
+                <table id="tabla-horarios">
+                    <caption class="sr-only">Horarios de atención por día</caption>
+                </table>
                 <p class="direccion"><a id="direccion-texto" href="#" target="_blank" rel="noopener"></a></p>
             </div>
-            <div class="mapa">
-                <iframe id="mapa" title="Mapa de Pollos Vidal" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="mapa" id="mapa-contenedor">
+                <div class="mapa-aviso">
+                    <p>El mapa lo ofrece Google Maps. Al cargarlo, Google puede recibir tu dirección IP y usar cookies (ver <a href="cookies.html">Política de cookies</a>).</p>
+                    <button class="boton" type="button" id="cargar-mapa">Cargar mapa de Google Maps</button>
+                    <p><a id="abrir-mapa" href="#" target="_blank" rel="noopener">Abrir en Google Maps (nueva pestaña)</a></p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- CONTACTO -->
-    <section class="contacto reveal" id="contacto">
-        <h2>Contáctanos</h2>
+    <section class="contacto reveal" id="contacto" aria-labelledby="titulo-contacto">
+        <h2 id="titulo-contacto">Contáctanos</h2>
         <p><a href="#" id="enlace-telefono"></a></p>
         <a href="#" class="boton boton-whatsapp js-whatsapp"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Escribir por WhatsApp</a>
-        <div class="redes">
-        </div>
+        <address class="datos-negocio">
+            <strong>Pollos Vidal</strong><br>
+            Titular: <mark class="pendiente">[COMPLETAR: nombre del titular o razón social]</mark><br>
+            NIT: <mark class="pendiente">[COMPLETAR: NIT]</mark><br>
+            Dirección: <mark class="pendiente">[COMPLETAR: dirección del local]</mark>, Cochabamba, Bolivia<br>
+            Correo: <mark class="pendiente">[COMPLETAR: correo de contacto]</mark>
+        </address>
     </section>
+    </main>
 
     <footer>
-        <img src="img/logo.png" alt="Logo de Pollos Vidal" class="logo-footer">
+        <img src="img/logo.png" alt="" class="logo-footer">
+        <nav class="legal-nav" aria-label="Información legal">
+            <a href="privacidad.html">Política de privacidad</a>
+            <a href="terminos.html">Términos y condiciones</a>
+            <a href="cookies.html">Política de cookies</a>
+            <a href="reembolso.html">Reembolsos y reclamos</a>
+        </nav>
         <p>&copy; 2026 Pollos Vidal. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- BOTÓN FLOTANTE WHATSAPP -->
-    <a href="#" class="wsp-flotante js-whatsapp" aria-label="Escribir por WhatsApp"><img src="icono/whatsapp.png" alt="WhatsApp"></a>
+    <a href="#" class="wsp-flotante js-whatsapp" aria-label="Escribir por WhatsApp"><img src="icono/whatsapp.png" alt=""></a>
 
-    <!-- CARRITO -->
-    <button class="btn-carrito" id="btn-carrito" aria-label="Ver mi pedido">
-        🛒 Mi pedido (<span id="carrito-cantidad">0</span>)
+    <button class="btn-carrito" id="btn-carrito" type="button">
+        <span aria-hidden="true">🛒</span> Ver mi pedido (<span id="carrito-cantidad">0</span>)
     </button>
+    <span class="sr-only" id="anuncio" role="status" aria-live="polite"></span>
 
-    <aside class="panel-carrito" id="panel-carrito" aria-hidden="true">
+    <aside class="panel-carrito" id="panel-carrito" role="dialog" aria-label="Mi pedido" aria-hidden="true" inert>
         <div class="panel-cabecera">
-            <h3>Mi pedido</h3>
-            <button id="cerrar-carrito" aria-label="Cerrar">✕</button>
+            <h2>Mi pedido</h2>
+            <button id="cerrar-carrito" type="button" aria-label="Cerrar mi pedido">✕</button>
         </div>
         <div id="carrito-lista" class="carrito-lista"></div>
         <div class="carrito-total">Total: <strong id="carrito-total">0 Bs</strong></div>
+        <p class="carrito-nota">No incluye el costo de envío a domicilio, que se confirma por WhatsApp.</p>
 
-        <!-- MÉTODO DE PAGO -->
         <fieldset class="metodo-pago">
             <legend>Método de pago</legend>
-            <label><input type="radio" name="pago" value="Efectivo" checked> 💵 Efectivo</label>
-            <label><input type="radio" name="pago" value="QR"> 📱 QR</label>
+            <label><input type="radio" name="pago" value="Efectivo" checked> <span aria-hidden="true">💵</span> Efectivo</label>
+            <label><input type="radio" name="pago" value="QR"> <span aria-hidden="true">📱</span> QR</label>
         </fieldset>
 
-        <button class="boton boton-whatsapp boton-ancho" id="enviar-pedido"><img class="icono-wsp" src="icono/whatsapp.png" alt=""><span id="texto-enviar">Enviar pedido por WhatsApp</span></button>
-        <button class="vaciar" id="vaciar-carrito">Vaciar pedido</button>
+        <label class="consentimiento">
+            <input type="checkbox" id="acepto">
+            <span>He leído la <a href="privacidad.html" target="_blank" rel="noopener">Política de privacidad</a> y los <a href="terminos.html" target="_blank" rel="noopener">Términos y condiciones</a>. Entiendo que mi pedido se enviará por WhatsApp.</span>
+        </label>
+        <p class="carrito-aviso" id="carrito-aviso" role="alert"></p>
+
+        <button class="boton boton-whatsapp boton-ancho" id="enviar-pedido" type="button"><img class="icono-wsp" src="icono/whatsapp.png" alt=""><span id="texto-enviar">Enviar pedido por WhatsApp</span></button>
+        <button class="vaciar" id="vaciar-carrito" type="button">Vaciar pedido</button>
     </aside>
 
-    <!-- VENTANA DE PAGO POR QR -->
     <div class="modal-qr" id="modal-qr" aria-hidden="true">
         <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="qr-titulo">
-            <button class="modal-cerrar" id="cerrar-qr" aria-label="Cerrar">✕</button>
-            <h3 id="qr-titulo">Paga con QR</h3>
+            <button class="modal-cerrar" id="cerrar-qr" type="button" aria-label="Cerrar ventana de pago por QR">✕</button>
+            <h2 id="qr-titulo">Paga con QR</h2>
             <p class="qr-total">Total a pagar: <strong id="qr-total">0 Bs</strong></p>
             <img id="qr-imagen" class="qr-imagen" src="img/qr-pago.png" alt="Código QR para pagar a Pollos Vidal">
             <p id="qr-error" class="qr-error" hidden>No se pudo cargar el QR. Pídelo por WhatsApp.</p>
@@ -184,8 +200,8 @@
                 <li>Paga el monto exacto del pedido.</li>
                 <li>Envía tu pedido y el comprobante por WhatsApp.</li>
             </ol>
-            <a href="img/qr-pago.png" download="qr-pollos-vidal.png" class="qr-descargar">Descargar QR</a>
-            <button class="boton boton-whatsapp boton-ancho" id="pagado-qr"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Ya pagué, enviar pedido</button>
+            <a href="img/qr-pago.png" download="qr-pollos-vidal.png" class="qr-descargar">Descargar imagen del QR</a>
+            <button class="boton boton-whatsapp boton-ancho" id="pagado-qr" type="button"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Ya pagué, enviar pedido por WhatsApp</button>
         </div>
     </div>
 
