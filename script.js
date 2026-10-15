@@ -1,7 +1,7 @@
 const CONFIG = {
     telefono: "59164800385",
     telefonoVisible: "+591 64800385",
-    direccion: "[COMPLETAR: dirección del local], Cochabamba",
+    direccion: "Avenida Río Paraguay, Cochabamba",
     coordenadas: "-17.464823,-66.128996",
     enlaceMapa: "https://maps.app.goo.gl/6kdsTAnHDXnfAr1j9",
     mensajeBase: "Hola Pollos Vidal, quiero hacer un pedido.",
