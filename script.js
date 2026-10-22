@@ -10,12 +10,12 @@ const CONFIG = {
     // Formato 24 h "HH:MM". Posición 0 = Domingo, 1 = Lunes ... 6 = Sábado.
     // Usa null en un día para mostrarlo como "Cerrado".
     horarios: [
-        ["12:00", "20:00"],   // Domingo
-        ["12:00", "20:00"],   // Lunes
-        ["12:00", "20:00"],   // Martes
-        ["12:00", "20:00"],   // Miércoles
-        ["12:00", "20:00"],   // Viernes
-        ["12:00", "20:00"]    // Sábado
+        ["11:30", "21:30"], // Domingo
+        ["11:30", "21:30"],   // Lunes
+        ["11:30", "21:30"],   // Martes
+        ["11:30", "21:30"],   // Miércoles
+        ["11:30", "21:30"],   // Viernes
+        ["11:30", "21:30"]    // Sábado
     ]
 };
 
