@@ -11,15 +11,42 @@ const CONFIG = {
     // Usa null en un día para mostrarlo como "Cerrado".
     horarios: [
         ["11:30", "21:30"], // Domingo
-        ["11:30", "21:30"],   // Lunes
-        ["11:30", "21:30"],   // Martes
-        ["11:30", "21:30"],   // Miércoles
-        ["11:30", "21:30"],   // Viernes
-        ["11:30", "21:30"]    // Sábado
+        ["11:30", "21:30"], // Lunes
+        ["11:30", "21:30"], // Martes
+        ["11:30", "21:30"], // Miércoles
+        null,                 // Jueves: cerrado
+        ["11:30", "21:30"], // Viernes
+        ["11:30", "21:30"]  // Sábado
     ]
 };
 
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+const supabaseClient = (function () {
+    const config = window.POLLOS_SUPABASE;
+    if (!window.supabase || !config || !config.url || !config.publishableKey || config.publishableKey.startsWith("PEGA_AQUI")) return null;
+    return window.supabase.createClient(config.url, config.publishableKey);
+})();
+
+// Los precios y la disponibilidad vienen de Supabase.
+if (supabaseClient) {
+    supabaseClient.from("products").select("id,name,description,price,active").order("id")
+        .then(function (result) {
+            if (result.error) throw result.error;
+            result.data.forEach(function (producto) {
+            const boton = document.querySelector('.btn-agregar[data-id="' + producto.id + '"]');
+            if (!boton) return;
+            const tarjeta = boton.closest(".card");
+            boton.dataset.nombre = producto.name;
+            boton.dataset.precio = String(producto.price);
+            boton.setAttribute("aria-label", "Agregar " + producto.name + " al pedido, " + producto.price + " bolivianos");
+            tarjeta.querySelector("h3").textContent = producto.name;
+            tarjeta.querySelector(".precio").textContent = producto.price + " Bs";
+            tarjeta.querySelector("p").textContent = producto.description;
+            tarjeta.hidden = !producto.active;
+            });
+        }).catch(function () { /* Se conservan los datos visibles si la conexión no está configurada. */ });
+}
 
 function esc(texto) {
     return String(texto).replace(/[&<>"']/g, function (c) {
@@ -188,12 +215,11 @@ function dibujarCarrito() {
     } else {
         lista.innerHTML = nombres.map(function (n) {
             const item = carrito[n];
-            const e = esc(n);
             return '<div class="carrito-item">' +
-                '<span class="nombre">' + e + '</span>' +
-                '<button type="button" data-accion="menos" data-nombre="' + e + '" aria-label="Quitar una unidad de ' + e + '">−</button>' +
+                '<span class="nombre">' + esc(item.nombre) + '</span>' +
+                '<button type="button" data-accion="menos" data-nombre="' + esc(n) + '" aria-label="Quitar una unidad de ' + esc(item.nombre) + '">−</button>' +
                 '<span aria-label="Cantidad">' + item.cantidad + '</span>' +
-                '<button type="button" data-accion="mas" data-nombre="' + e + '" aria-label="Agregar una unidad de ' + e + '">+</button>' +
+                '<button type="button" data-accion="mas" data-nombre="' + esc(n) + '" aria-label="Agregar una unidad de ' + esc(item.nombre) + '">+</button>' +
                 '<span>' + (item.precio * item.cantidad) + ' Bs</span>' +
                 '</div>';
         }).join("");
@@ -205,12 +231,13 @@ function dibujarCarrito() {
 
 document.querySelectorAll(".btn-agregar").forEach(function (btn) {
     btn.addEventListener("click", function () {
+        const id = btn.dataset.id;
         const nombre = btn.dataset.nombre;
         const precio = parseFloat(btn.dataset.precio);
-        if (carrito[nombre]) {
-            carrito[nombre].cantidad++;
+        if (carrito[id]) {
+            carrito[id].cantidad++;
         } else {
-            carrito[nombre] = { precio: precio, cantidad: 1 };
+            carrito[id] = { id: id, nombre: nombre, precio: precio, cantidad: 1 };
         }
         dibujarCarrito();
         abrirCarrito();
@@ -221,13 +248,13 @@ document.querySelectorAll(".btn-agregar").forEach(function (btn) {
 lista.addEventListener("click", function (e) {
     const btn = e.target.closest("button");
     if (!btn) return;
-    const nombre = btn.dataset.nombre;
-    if (!carrito[nombre]) return;
+    const id = btn.dataset.nombre;
+    if (!carrito[id]) return;
     if (btn.dataset.accion === "mas") {
-        carrito[nombre].cantidad++;
+        carrito[id].cantidad++;
     } else {
-        carrito[nombre].cantidad--;
-        if (carrito[nombre].cantidad <= 0) delete carrito[nombre];
+        carrito[id].cantidad--;
+        if (carrito[id].cantidad <= 0) delete carrito[id];
     }
     dibujarCarrito();
     anunciar("Total: " + calcularTotal() + " bolivianos.");
@@ -298,23 +325,90 @@ document.addEventListener("keydown", function (e) {
 });
 
 /* ---------- Enviar pedido ---------- */
-function construirMensaje(pago) {
-    let mensaje = "Hola Pollos Vidal, quiero hacer este pedido:\n\n";
-    Object.keys(carrito).forEach(function (n) {
-        const item = carrito[n];
-        mensaje += "• " + item.cantidad + " x " + n + " = " + (item.precio * item.cantidad) + " Bs\n";
+const campoDireccion = document.getElementById("campo-direccion");
+const entradaDireccion = document.getElementById("cliente-direccion");
+
+document.querySelectorAll('input[name="entrega"]').forEach(function (radio) {
+    radio.addEventListener("change", function () {
+        const esDomicilio = document.querySelector('input[name="entrega"]:checked').value === "Entrega a domicilio";
+        campoDireccion.hidden = !esDomicilio;
+        entradaDireccion.required = esDomicilio;
+        if (!esDomicilio) entradaDireccion.value = "";
     });
-    mensaje += "\nTotal (sin envío): " + calcularTotal() + " Bs";
+});
+
+function validarDatosPedido() {
+    const nombre = document.getElementById("cliente-nombre");
+    const telefono = document.getElementById("cliente-telefono");
+    const entrega = document.querySelector('input[name="entrega"]:checked').value;
+
+    if (!nombre.value.trim()) {
+        aviso.textContent = "Escribe tu nombre para identificar el pedido.";
+        nombre.focus();
+        return false;
+    }
+    if (!telefono.value.trim()) {
+        aviso.textContent = "Escribe un número de teléfono de contacto.";
+        telefono.focus();
+        return false;
+    }
+    if (entrega === "Entrega a domicilio" && !entradaDireccion.value.trim()) {
+        aviso.textContent = "Escribe tu dirección y zona para coordinar la entrega.";
+        entradaDireccion.focus();
+        return false;
+    }
+    return true;
+}
+
+function construirMensaje(pago, pedido) {
+    let mensaje = "Hola Pollos Vidal, quiero hacer este pedido:\n\n";
+    mensaje += "Pedido #" + pedido.id + "\n";
+    mensaje += "Nombre: " + pedido.customer_name + "\nTeléfono de contacto: " + pedido.customer_phone + "\n";
+    mensaje += "Entrega: " + pedido.delivery + "\n";
+    if (pedido.delivery === "Entrega a domicilio") {
+        mensaje += "Dirección y zona: " + pedido.address + "\n";
+    }
+    pedido.items.forEach(function (item) {
+        mensaje += "• " + item.quantity + " x " + item.name + " = " + (item.price * item.quantity) + " Bs\n";
+    });
+    mensaje += "\nTotal de productos (sin envío): " + pedido.total + " Bs";
     if (pago === "QR") {
-        mensaje += "\nMétodo de pago: QR (ya realicé el pago, te envío el comprobante)";
+        mensaje += "\nMétodo de pago: QR. Enviaré el comprobante por WhatsApp; pago pendiente de verificación.";
     } else {
         mensaje += "\nMétodo de pago: Efectivo";
     }
     return mensaje;
 }
 
-function enviarPedido(pago) {
-    window.open(enlaceWhatsApp(construirMensaje(pago)), "_blank", "noopener");
+let pedidoGuardado = null;
+let enviando = false;
+
+async function guardarPedido(pago) {
+    if (!supabaseClient) throw new Error("La conexión de pedidos todavía no está configurada. Contacta al negocio por WhatsApp.");
+    const entrega = document.querySelector('input[name="entrega"]:checked').value;
+    const datos = {
+        name: document.getElementById("cliente-nombre").value.trim(),
+        phone: document.getElementById("cliente-telefono").value.trim(),
+        delivery: entrega,
+        address: entrega === "Entrega a domicilio" ? entradaDireccion.value.trim() : "",
+        payment: pago,
+        items: Object.keys(carrito).map(function (id) { return { id: carrito[id].id, quantity: carrito[id].cantidad }; })
+    };
+    const respuesta = await supabaseClient.functions.invoke("create-order", { body: datos });
+    const resultado = respuesta.data || {};
+    if (respuesta.error || !resultado.order) throw new Error(resultado.error?.message || resultado.error || "No se pudo registrar el pedido. Inténtalo de nuevo.");
+    pedidoGuardado = resultado.order;
+    return pedidoGuardado;
+}
+
+function abrirWhatsApp(pedido, ventana) {
+    const url = enlaceWhatsApp(construirMensaje(pedido.payment, pedido));
+    if (ventana && !ventana.closed) {
+        ventana.opener = null;
+        ventana.location.href = url;
+    } else {
+        window.location.href = url;
+    }
 }
 
 document.getElementById("enviar-pedido").addEventListener("click", function () {
@@ -323,20 +417,37 @@ document.getElementById("enviar-pedido").addEventListener("click", function () {
         aviso.textContent = "Agrega al menos un producto a tu pedido.";
         return;
     }
+    if (!validarDatosPedido()) return;
     if (!casillaAcepto.checked) {
         aviso.textContent = "Marca la casilla para aceptar la política de privacidad y los términos.";
         casillaAcepto.focus();
         return;
     }
-    if (metodoPago() === "QR") {
-        abrirQR();
-    } else {
-        enviarPedido("Efectivo");
-    }
+    if (enviando) return;
+    enviando = true;
+    const botonEnvio = document.getElementById("enviar-pedido");
+    botonEnvio.disabled = true;
+    const pago = metodoPago();
+    const ventana = pago === "QR" ? null : window.open("about:blank", "_blank");
+    aviso.textContent = "Registrando tu pedido…";
+    guardarPedido(pago).then(function (pedido) {
+        aviso.textContent = "Pedido #" + pedido.id + " registrado. " + (pago === "QR" ? "Completa el pago y continúa por WhatsApp." : "Abriendo WhatsApp…");
+        if (pago === "QR") abrirQR();
+        else abrirWhatsApp(pedido, ventana);
+    }).catch(function (error) {
+        if (ventana && !ventana.closed) ventana.close();
+        aviso.textContent = error.message;
+    }).finally(function () {
+        enviando = false;
+        botonEnvio.disabled = false;
+    });
 });
 
 document.getElementById("pagado-qr").addEventListener("click", function () {
-    enviarPedido("QR");
+    if (pedidoGuardado) {
+        abrirWhatsApp(pedidoGuardado, window.open("about:blank", "_blank"));
+        aviso.textContent = "Pedido #" + pedidoGuardado.id + " enviado por WhatsApp. El negocio verificará el pago.";
+    }
     cerrarQR();
 });
 

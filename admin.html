@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Administración | Pollos Vidal</title>
+  <link rel="icon" type="image/webp" href="img/logo.webp">
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <section class="login-card" id="login-view" aria-labelledby="login-title" hidden>
+      <a class="brand" href="index.html"><img src="img/logo.webp" alt=""><span>Pollos Vidal</span></a>
+      <p class="eyebrow">ÁREA PRIVADA</p>
+      <h1 id="login-title">Administración del negocio</h1>
+      <p class="muted">Tú y la dueña pueden ingresar con sus propias cuentas.</p>
+      <form id="login-form">
+        <label>Correo electrónico<input name="email" type="email" autocomplete="username" required maxlength="254"></label>
+        <label>Contraseña<input name="password" type="password" autocomplete="current-password" required maxlength="256"></label>
+        <p class="notice" id="login-error" role="alert"></p>
+        <button class="primary full" type="submit">Ingresar al panel</button>
+      </form>
+      <a class="back" href="index.html">← Volver a la página</a>
+    </section>
+
+    <section id="dashboard-view" hidden>
+      <header class="topbar">
+        <a class="brand" href="index.html"><img src="img/logo.webp" alt=""><span>Pollos Vidal</span></a>
+        <div class="top-actions"><span id="owner-name"></span><button class="quiet" id="logout" type="button">Cerrar sesión</button></div>
+      </header>
+      <div class="intro"><div><p class="eyebrow">ADMINISTRACIÓN</p><h1>Panel del negocio</h1><p class="muted">Pedidos, ventas del día y disponibilidad del menú.</p></div><button class="quiet" id="refresh" type="button">↻ Actualizar</button></div>
+      <p class="notice" id="global-error" role="alert"></p>
+      <section class="stats" aria-label="Resumen del día">
+        <article class="stat"><span>Pedidos de hoy</span><strong id="stat-orders">0</strong></article>
+        <article class="stat"><span>Ventas confirmadas hoy</span><strong id="stat-sales">0 Bs</strong></article>
+        <article class="stat"><span>Pedidos en curso</span><strong id="stat-pending">0</strong></article>
+      </section>
+      <section class="panel"><div class="section-heading"><div><h2>Pedidos</h2><p class="muted">Revisa los datos del cliente, el pago y avanza el estado.</p></div><label class="filter">Estado<select id="status-filter"><option value="todos">Todos</option><option value="nuevo">Nuevos</option><option value="confirmado">Confirmados</option><option value="preparando">Preparando</option><option value="listo">Listos</option><option value="entregado">Entregados</option><option value="cancelado">Cancelados</option></select></label></div>
+        <div id="orders" class="orders"><p class="muted">Cargando pedidos…</p></div>
+      </section>
+      <section class="panel"><div class="section-heading"><div><h2>Menú y disponibilidad</h2><p class="muted">Los cambios de precio y disponibilidad se reflejan en la página pública.</p></div></div><div id="products" class="products"></div></section>
+      <footer>Los pedidos y el menú se guardan en la base de datos de este negocio.</footer>
+    </section>
+  </main>
+</body>
+</html>

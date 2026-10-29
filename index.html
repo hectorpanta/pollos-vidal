@@ -7,7 +7,7 @@
     <meta name="description" content="Pollos Vidal: pollo broaster y pollo al spiedo en Cochabamba. Pide por WhatsApp, a domicilio o visítanos.">
     <script>document.documentElement.classList.add("js");</script>
 
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="icon" type="image/png" href="img/logo.webp">
     <link rel="stylesheet" href="style.css">
 
     <script type="application/ld+json">
@@ -15,8 +15,8 @@
       "@context": "https://schema.org",
       "@type": "Restaurant",
       "name": "Pollos Vidal",
-      "image": "img/logo.png",
-      "logo": "img/logo.png",
+      "image": "img/logo.webp",
+      "logo": "img/logo.webp",
       "servesCuisine": "Pollo broaster, Pollo al spiedo",
       "telephone": "+59164800385",
       "address": {
@@ -31,7 +31,7 @@
         "longitude": -66.128996
       },
       "hasMap": "https://maps.app.goo.gl/6kdsTAnHDXnfAr1j9",
-      "openingHours": "Mo-Su 12:00-20:00"
+      "openingHours": "Mo-We,Fr-Su 11:30-21:30"
     }
     </script>
 </head>
@@ -40,7 +40,7 @@
 
     <header class="header">
         <a href="#inicio" class="logo">
-            <img src="img/logo.png" alt="" class="logo-img">
+            <img src="img/logo.webp" alt="" class="logo-img">
             <span class="logo-texto">Pollos Vidal</span>
         </a>
         <button class="hamburguesa" id="btn-menu" type="button" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav">☰</button>
@@ -57,7 +57,7 @@
     <main id="contenido">
     <section class="hero" id="inicio">
         <div class="hero-content">
-            <img src="img/logo.png" alt="Logo de Pollos Vidal" class="logo-hero">
+            <img src="img/logo.webp" alt="Logo de Pollos Vidal" class="logo-hero">
             <span class="badge">Pollo broaster y pollo al spiedo</span>
             <h1 class="titulo-animado">Pollo <span>Broaster</span> y <span>Spiedo</span> en Cochabamba</h1>
             <p>Broaster empanizado y spiedo asado lentamente, con arroz, tallarín y papas. Pide por WhatsApp o visítanos.</p>
@@ -71,32 +71,32 @@
         <div class="productos-grid">
 
             <div class="card">
-                <img class="foto-pollo" src="img/broaster.png" alt="Plato de pollo broaster con arroz, tallarín y papas fritas">
+                <img class="foto-pollo" src="img/broaster.webp" alt="Plato de pollo broaster con arroz, tallarín y papas fritas">
                 <div class="card-content">
                     <h3>Pollo Broaster</h3>
                     <p>Empanizado y frito, acompañado de arroz, tallarín y papas fritas.</p>
                     <span class="precio">17 Bs</span>
-                    <button class="btn-agregar" type="button" data-nombre="Pollo Broaster" data-precio="17" aria-label="Agregar Pollo Broaster al pedido, 17 bolivianos">+ Agregar al pedido</button>
+                    <button class="btn-agregar" type="button" data-id="broaster" data-nombre="Pollo Broaster" data-precio="17" aria-label="Agregar Pollo Broaster al pedido, 17 bolivianos">+ Agregar al pedido</button>
                 </div>
             </div>
 
             <div class="card">
-                <img class="foto-pollo" src="img/spiedo.png" alt="Plato de pollo al spiedo con arroz, tallarín y papas">
+                <img class="foto-pollo" src="img/spiedo.webp" alt="Plato de pollo al spiedo con arroz, tallarín y papas">
                 <div class="card-content">
                     <h3>Pollo al Spiedo</h3>
                     <p>Asado lentamente, acompañado de arroz, tallarín y papas.</p>
                     <span class="precio">17 Bs</span>
-                    <button class="btn-agregar" type="button" data-nombre="Pollo al Spiedo" data-precio="17" aria-label="Agregar Pollo al Spiedo al pedido, 17 bolivianos">+ Agregar al pedido</button>
+                    <button class="btn-agregar" type="button" data-id="spiedo" data-nombre="Pollo al Spiedo" data-precio="17" aria-label="Agregar Pollo al Spiedo al pedido, 17 bolivianos">+ Agregar al pedido</button>
                 </div>
             </div>
 
             <div class="card">
-                <img class="foto-pollo" src="img/combo.png" alt="Combo familiar de pollo entero con acompañamientos">
+                <img class="foto-pollo" src="img/combo.webp" alt="Combo familiar de pollo entero con acompañamientos">
                 <div class="card-content">
                     <h3>Combo Familiar</h3>
                     <p>1 pollo entero (broaster o spiedo) con acompañamientos a elección, para compartir.</p>
                     <span class="precio">90 Bs</span>
-                    <button class="btn-agregar" type="button" data-nombre="Combo Familiar" data-precio="90" aria-label="Agregar Combo Familiar al pedido, 90 bolivianos">+ Agregar al pedido</button>
+                    <button class="btn-agregar" type="button" data-id="combo" data-nombre="Combo Familiar" data-precio="90" aria-label="Agregar Combo Familiar al pedido, 90 bolivianos">+ Agregar al pedido</button>
                 </div>
             </div>
 
@@ -145,7 +145,7 @@
     </main>
 
     <footer>
-        <img src="img/logo.png" alt="" class="logo-footer">
+        <img src="img/logo.webp" alt="" class="logo-footer">
         <nav class="legal-nav" aria-label="Información legal">
             <a href="privacidad.html">Política de privacidad</a>
             <a href="terminos.html">Términos y condiciones</a>
@@ -153,6 +153,7 @@
             <a href="reembolso.html">Reembolsos y reclamos</a>
         </nav>
         <p>&copy; 2026 Pollos Vidal. Todos los derechos reservados.</p>
+        <a href="admin.html" class="acceso-admin">Administración del negocio</a>
     </footer>
 
     <a href="#" class="wsp-flotante js-whatsapp" aria-label="Escribir por WhatsApp"><img src="icono/whatsapp.png" alt=""></a>
@@ -170,6 +171,25 @@
         <div id="carrito-lista" class="carrito-lista"></div>
         <div class="carrito-total">Total: <strong id="carrito-total">0 Bs</strong></div>
         <p class="carrito-nota">No incluye el costo de envío a domicilio, que se confirma por WhatsApp.</p>
+
+        <section class="datos-pedido" aria-labelledby="datos-pedido-titulo">
+            <h3 id="datos-pedido-titulo">Datos para coordinar</h3>
+            <label class="campo-pedido" for="cliente-nombre">Tu nombre
+                <input id="cliente-nombre" type="text" autocomplete="name" maxlength="80" required>
+            </label>
+            <label class="campo-pedido" for="cliente-telefono">Tu número de teléfono
+                <input id="cliente-telefono" type="tel" autocomplete="tel" maxlength="30" required>
+            </label>
+            <fieldset class="tipo-entrega">
+                <legend>¿Cómo recibirás tu pedido?</legend>
+                <label><input type="radio" name="entrega" value="Recojo en el local" checked> Recojo en el local</label>
+                <label><input type="radio" name="entrega" value="Entrega a domicilio"> Entrega a domicilio</label>
+            </fieldset>
+            <label class="campo-pedido" id="campo-direccion" for="cliente-direccion" hidden>Dirección de entrega y zona
+                <textarea id="cliente-direccion" autocomplete="street-address" maxlength="250" rows="3"></textarea>
+            </label>
+            <p class="ayuda-pedido">La cobertura y el costo de envío se confirman por WhatsApp.</p>
+        </section>
 
         <fieldset class="metodo-pago">
             <legend>Método de pago</legend>
@@ -196,14 +216,16 @@
             <p id="qr-error" class="qr-error" hidden>No se pudo cargar el QR. Pídelo por WhatsApp.</p>
             <ol class="qr-pasos">
                 <li>Abre la app de tu banco y escanea el QR.</li>
-                <li>Paga el monto exacto del pedido.</li>
-                <li>Envía tu pedido y el comprobante por WhatsApp.</li>
+                <li>Ingresa el total de productos; el envío se confirma aparte.</li>
+                <li>Al continuar por WhatsApp, adjunta el comprobante. El negocio debe verificar el pago antes de confirmar el pedido.</li>
             </ol>
             <a href="img/qr-pago.png" download="qr-pollos-vidal.png" class="qr-descargar">Descargar imagen del QR</a>
-            <button class="boton boton-whatsapp boton-ancho" id="pagado-qr" type="button"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Ya pagué, enviar pedido por WhatsApp</button>
+            <button class="boton boton-whatsapp boton-ancho" id="pagado-qr" type="button"><img class="icono-wsp" src="icono/whatsapp.png" alt="">Continuar por WhatsApp y adjuntar comprobante</button>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -420,6 +420,35 @@ footer {
 .carrito-total { font-size: 18px; margin-bottom: 4px; text-align: right; color: var(--texto); }
 .carrito-nota { font-size: 13px; color: var(--texto-suave); text-align: right; margin: 0 0 12px 0; }
 
+.datos-pedido {
+    border: 2px solid #eeeeee;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 0 0 14px 0;
+    color: var(--texto);
+}
+.datos-pedido h3 { color: var(--rojo); font-size: 16px; margin: 0 0 10px 0; }
+.campo-pedido { display: block; font-size: 14px; font-weight: bold; margin: 0 0 10px 0; }
+.campo-pedido input, .campo-pedido textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #888888;
+    border-radius: 6px;
+    font: inherit;
+}
+.tipo-entrega {
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin: 0 0 10px 0;
+}
+.tipo-entrega legend { font-size: 14px; font-weight: bold; padding: 0 4px; }
+.tipo-entrega label { display: block; font-size: 14px; padding: 5px 0; }
+.ayuda-pedido { font-size: 13px; color: var(--texto-suave); margin: 0; }
+
 .boton-ancho { width: 100%; margin: 0; }
 
 .vaciar {
@@ -547,6 +576,7 @@ footer {
 .legal .actualizado { color: var(--texto-suave); font-size: 14px; margin-top: 0; }
 .legal .volver { font-weight: bold; text-decoration: none; }
 .legal ul { padding-left: 22px; }
+.acceso-admin { display: inline-block; margin: 4px 0 14px; color: var(--texto-suave); font-size: 13px; }
 
 /* ---------- ANIMACIÓN AL HACER SCROLL ---------- */
 .js .reveal {
