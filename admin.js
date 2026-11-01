@@ -25,7 +25,7 @@
     const {data:sessionData} = await client.auth.getSession();
     if (!sessionData.session) return false;
     const {data, error} = await client.rpc('is_admin');
-    if (error || data !== true) { await client.auth.signOut(); return false; }
+    if (error || data !== true) return false;
     return true;
   }
 
@@ -40,7 +40,6 @@
       if (authError) throw authError;
       const {data:isAllowed, error:roleError} = await client.rpc('is_admin');
       if (roleError || isAllowed !== true) {
-        await client.auth.signOut();
         throw new Error('Esta cuenta no tiene acceso administrativo.');
       }
       loginForm.reset(); showDashboard(data.user.email);

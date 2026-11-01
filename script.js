@@ -28,6 +28,206 @@ const supabaseClient = (function () {
     return window.supabase.createClient(config.url, config.publishableKey);
 })();
 
+/* ---------- Acceso de clientes ---------- */
+const accesoClientes = document.getElementById("acceso-clientes");
+const contenidoProtegido = document.getElementById("contenido-protegido");
+const formularioAcceso = document.getElementById("acceso-form");
+const mensajeAcceso = document.getElementById("acceso-mensaje");
+const campoTelefonoCuenta = document.getElementById("acceso-telefono");
+const filaTelefonoCuenta = document.getElementById("acceso-telefono-fila");
+const filaConsentimiento = document.getElementById("acceso-consentimiento-fila");
+const consentimientoAcceso = document.getElementById("acceso-consentimiento");
+const botonAcceso = document.getElementById("acceso-enviar");
+const botonCambiarModo = document.getElementById("acceso-cambiar-modo");
+const botonRecuperar = document.getElementById("acceso-recuperar");
+const filaConfirmarContrasena = document.getElementById("acceso-confirmar-fila");
+const campoConfirmarContrasena = document.getElementById("acceso-confirmar-contrasena");
+const botonCerrarSesion = document.getElementById("cerrar-sesion-cliente");
+let crearCuenta = false;
+let restableciendoContrasena = false;
+
+function mostrarAcceso(session) {
+    const autenticado = Boolean(session && session.user) && !restableciendoContrasena;
+    accesoClientes.hidden = autenticado;
+    contenidoProtegido.hidden = !autenticado;
+    botonCerrarSesion.hidden = !autenticado;
+    if (autenticado) {
+        const telefono = session.user.user_metadata && session.user.user_metadata.phone;
+        const campoPedidoTelefono = document.getElementById("cliente-telefono");
+        if (campoPedidoTelefono && !campoPedidoTelefono.value && telefono) campoPedidoTelefono.value = telefono;
+    }
+}
+
+function cambiarModoAcceso(registro) {
+    restableciendoContrasena = false;
+    crearCuenta = registro;
+    filaConfirmarContrasena.hidden = true;
+    campoConfirmarContrasena.disabled = true;
+    campoConfirmarContrasena.required = false;
+    document.querySelector('label[for="acceso-contrasena"]').firstChild.textContent = "Contraseña\n                    ";
+    document.getElementById("acceso-correo").readOnly = false;
+    filaTelefonoCuenta.hidden = !registro;
+    campoTelefonoCuenta.disabled = !registro;
+    campoTelefonoCuenta.required = registro;
+    filaConsentimiento.hidden = !registro;
+    consentimientoAcceso.disabled = !registro;
+    consentimientoAcceso.required = registro;
+    document.getElementById("acceso-titulo").textContent = registro ? "Crea tu cuenta" : "Inicia sesión para entrar";
+    document.getElementById("acceso-ayuda").textContent = registro
+        ? "Regístrate con tu correo, teléfono de contacto y una contraseña."
+        : "Ingresa con el correo y la contraseña de tu cuenta.";
+    document.getElementById("acceso-contrasena").autocomplete = registro ? "new-password" : "current-password";
+    botonAcceso.textContent = registro ? "Crear cuenta" : "Ingresar";
+    botonCambiarModo.textContent = registro ? "Ya tengo una cuenta · Iniciar sesión" : "Crear una cuenta";
+    botonCambiarModo.hidden = false;
+    botonRecuperar.hidden = registro;
+    mensajeAcceso.textContent = "";
+}
+
+function mostrarFormularioNuevaContrasena(session) {
+    restableciendoContrasena = true;
+    crearCuenta = false;
+    accesoClientes.hidden = false;
+    contenidoProtegido.hidden = true;
+    botonCerrarSesion.hidden = true;
+    document.getElementById("acceso-titulo").textContent = "Crea una contraseña nueva";
+    document.getElementById("acceso-ayuda").textContent = "Elige una contraseña nueva para tu cuenta.";
+    document.getElementById("acceso-correo").value = session && session.user ? session.user.email || "" : "";
+    document.getElementById("acceso-correo").readOnly = true;
+    document.querySelector('label[for="acceso-contrasena"]').firstChild.textContent = "Nueva contraseña\n                    ";
+    document.getElementById("acceso-contrasena").autocomplete = "new-password";
+    filaTelefonoCuenta.hidden = true;
+    campoTelefonoCuenta.disabled = true;
+    campoTelefonoCuenta.required = false;
+    filaConsentimiento.hidden = true;
+    consentimientoAcceso.disabled = true;
+    consentimientoAcceso.required = false;
+    filaConfirmarContrasena.hidden = false;
+    campoConfirmarContrasena.disabled = false;
+    campoConfirmarContrasena.required = true;
+    botonCambiarModo.hidden = true;
+    botonRecuperar.hidden = true;
+    botonAcceso.textContent = "Guardar contraseña";
+    mensajeAcceso.textContent = "";
+}
+
+function mensajeErrorAcceso(error) {
+    const message = String(error && error.message || "");
+    if (/invalid login credentials/i.test(message)) return "El correo o la contraseña no son correctos.";
+    if (/email not confirmed/i.test(message)) return "Confirma tu correo electrónico desde el mensaje que te enviamos.";
+    if (/user already registered/i.test(message)) return "Ya existe una cuenta con ese correo. Inicia sesión.";
+    if (/password should be at least/i.test(message)) return "La contraseña debe tener al menos 8 caracteres.";
+    if (/las contraseñas no coinciden/i.test(message)) return message;
+    if (/rate limit/i.test(message)) return "Espera un momento antes de volver a intentarlo.";
+    return "No se pudo completar el acceso. Revisa tus datos e inténtalo de nuevo.";
+}
+
+if (!supabaseClient) {
+    mensajeAcceso.textContent = "La conexión de la tienda todavía no está configurada. Contacta al negocio por WhatsApp.";
+    botonAcceso.disabled = true;
+    botonCambiarModo.disabled = true;
+} else {
+    botonCambiarModo.addEventListener("click", function () { cambiarModoAcceso(!crearCuenta); });
+    botonRecuperar.addEventListener("click", async function () {
+        const email = document.getElementById("acceso-correo").value.trim().toLowerCase();
+        if (!email) {
+            mensajeAcceso.textContent = "Escribe tu correo electrónico para enviarte el enlace de recuperación.";
+            document.getElementById("acceso-correo").focus();
+            return;
+        }
+        botonRecuperar.disabled = true;
+        mensajeAcceso.textContent = "Enviando el enlace de recuperación…";
+        try {
+            const redirectTo = window.location.origin + window.location.pathname;
+            const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo });
+            if (error) throw error;
+            mensajeAcceso.textContent = "Si existe una cuenta con ese correo, recibirás un enlace para cambiar la contraseña.";
+        } catch (error) {
+            mensajeAcceso.textContent = mensajeErrorAcceso(error);
+        } finally {
+            botonRecuperar.disabled = false;
+        }
+    });
+    formularioAcceso.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        mensajeAcceso.textContent = "";
+        botonAcceso.disabled = true;
+        botonCambiarModo.disabled = true;
+        const datos = new FormData(formularioAcceso);
+        const email = String(datos.get("email") || "").trim().toLowerCase();
+        const password = String(datos.get("password") || "");
+        try {
+            if (restableciendoContrasena) {
+                if (password !== campoConfirmarContrasena.value) throw new Error("Las contraseñas no coinciden.");
+                const { error } = await supabaseClient.auth.updateUser({ password });
+                if (error) throw error;
+                restableciendoContrasena = false;
+                const { data } = await supabaseClient.auth.getSession();
+                mostrarAcceso(data.session);
+            } else if (crearCuenta) {
+                const phone = campoTelefonoCuenta.value.trim();
+                if (!/^[+0-9 ()-]{7,30}$/.test(phone) || phone.replace(/[^0-9]/g, "").length < 7) {
+                    throw new Error("Escribe un número de teléfono válido.");
+                }
+                if (!consentimientoAcceso.checked) throw new Error("Acepta la política de privacidad y los términos para crear la cuenta.");
+                const redirectTo = window.location.origin + window.location.pathname;
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: { data: { phone }, emailRedirectTo: redirectTo }
+                });
+                if (error) throw error;
+                if (data.session) {
+                    mostrarAcceso(data.session);
+                } else {
+                    cambiarModoAcceso(false);
+                    document.getElementById("acceso-correo").value = email;
+                    document.getElementById("acceso-contrasena").value = "";
+                    mensajeAcceso.textContent = "Cuenta creada. Revisa tu correo para confirmar la cuenta y luego inicia sesión.";
+                }
+            } else {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                mostrarAcceso(data.session);
+            }
+        } catch (error) {
+            mensajeAcceso.textContent = error instanceof Error && error.message === "Escribe un número de teléfono válido."
+                ? error.message
+                : error instanceof Error && error.message === "Las contraseñas no coinciden."
+                    ? error.message
+                : error instanceof Error && error.message.startsWith("Acepta la política")
+                    ? error.message
+                    : mensajeErrorAcceso(error);
+        } finally {
+            botonAcceso.disabled = false;
+            botonCambiarModo.disabled = false;
+        }
+    });
+    botonCerrarSesion.addEventListener("click", async function () {
+        botonCerrarSesion.disabled = true;
+        try {
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) throw error;
+            mensajeAcceso.textContent = "Sesión cerrada.";
+        } catch (error) {
+            mensajeAcceso.textContent = mensajeErrorAcceso(error);
+        } finally {
+            botonCerrarSesion.disabled = false;
+        }
+    });
+    supabaseClient.auth.onAuthStateChange(function (event, session) {
+        if (event === "PASSWORD_RECOVERY") mostrarFormularioNuevaContrasena(session);
+        else if (!restableciendoContrasena) mostrarAcceso(session);
+    });
+    supabaseClient.auth.getSession().then(function (result) {
+        if (result.error) {
+            mensajeAcceso.textContent = "No pudimos revisar tu sesión. Recarga la página e inténtalo de nuevo.";
+            return;
+        }
+        mostrarAcceso(result.data.session);
+    });
+}
+
 // Los precios y la disponibilidad vienen de Supabase.
 if (supabaseClient) {
     supabaseClient.from("products").select("id,name,description,price,active").order("id")
