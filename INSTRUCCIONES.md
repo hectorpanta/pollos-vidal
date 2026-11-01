@@ -10,11 +10,12 @@
 
 ## Carpetas del sitio
 
-- La página pública y las páginas legales permanecen en la raíz. El panel está en `admin/index.html` para abrirse con la ruta limpia `/admin/`.
+- La página pública permanece en la raíz. El panel está en `admin/index.html` para abrirse con la ruta limpia `/admin/`, y los documentos legales están en `legal/`.
 - `assets/css/` contiene los estilos.
 - `assets/js/` contiene el código JavaScript y la configuración pública de Supabase.
 - `assets/images/` contiene las imágenes y el QR de pago; `assets/images/originales/` guarda las imágenes originales.
 - `assets/icons/` contiene los iconos.
+- `legal/` contiene la política de privacidad, términos y condiciones, cookies y reembolsos.
 - `supabase/` conserva el esquema de la base de datos y la función para registrar pedidos.
 
 ## Activar los cambios en Supabase
