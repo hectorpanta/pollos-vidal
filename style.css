@@ -448,6 +448,12 @@ footer {
 .tipo-entrega legend { font-size: 14px; font-weight: bold; padding: 0 4px; }
 .tipo-entrega label { display: block; font-size: 14px; padding: 5px 0; }
 .ayuda-pedido { font-size: 13px; color: var(--texto-suave); margin: 0; }
+.boton-ubicacion { display: inline-block; margin: 7px 0; padding: 9px 12px; border: 1px solid #cdb9aa; border-radius: 8px; background: #fffaf6; color: var(--rojo); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.boton-ubicacion:hover { background: #f5e9df; }
+.boton-ubicacion:disabled { opacity: .65; cursor: wait; }
+.campo-pedido input[type="url"] { width: 100%; border: 1px solid #cbbfb5; border-radius: 8px; padding: 11px; font: inherit; font-weight: 400; }
+.estado-ubicacion { min-height: 0; margin: 2px 0 8px; color: var(--texto-suave); font-size: 13px; }
+.estado-ubicacion:empty { display: none; }
 
 .boton-ancho { width: 100%; margin: 0; }
 

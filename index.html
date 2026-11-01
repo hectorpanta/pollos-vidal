@@ -185,10 +185,19 @@
                 <label><input type="radio" name="entrega" value="Recojo en el local" checked> Recojo en el local</label>
                 <label><input type="radio" name="entrega" value="Entrega a domicilio"> Entrega a domicilio</label>
             </fieldset>
-            <label class="campo-pedido" id="campo-direccion" for="cliente-direccion" hidden>Dirección de entrega y zona
-                <textarea id="cliente-direccion" autocomplete="street-address" maxlength="250" rows="3"></textarea>
-            </label>
-            <p class="ayuda-pedido">La cobertura y el costo de envío se confirman por WhatsApp.</p>
+            <div id="campo-direccion" hidden>
+                <label class="campo-pedido" for="cliente-direccion">Dirección, zona y referencias
+                    <textarea id="cliente-direccion" autocomplete="street-address" maxlength="250" rows="3" placeholder="Ej.: Av. Blanco Galindo, zona Cala Cala, casa con portón negro"></textarea>
+                </label>
+                <div class="campo-pedido">
+                    <label for="cliente-maps">Ubicación de Google Maps</label>
+                    <input id="cliente-maps" type="url" maxlength="500" inputmode="url" placeholder="Pega aquí el enlace compartido de Google Maps" aria-describedby="ayuda-maps">
+                    <button class="boton-ubicacion" id="usar-ubicacion" type="button">Usar mi ubicación actual</button>
+                    <p class="ayuda-pedido" id="ayuda-maps">En Google Maps, abre tu dirección, pulsa <strong>Compartir</strong> y copia el enlace aquí. También puedes usar tu ubicación actual; el navegador te pedirá permiso y el enlace se enviará al negocio.</p>
+                    <p class="estado-ubicacion" id="estado-ubicacion" role="status" aria-live="polite"></p>
+                </div>
+                <p class="ayuda-pedido">La cobertura y el costo de envío se confirman por WhatsApp.</p>
+            </div>
         </section>
 
         <fieldset class="metodo-pago">
@@ -199,7 +208,7 @@
 
         <label class="consentimiento">
             <input type="checkbox" id="acepto">
-            <span>He leído la <a href="privacidad.html" target="_blank" rel="noopener">Política de privacidad</a> y los <a href="terminos.html" target="_blank" rel="noopener">Términos y condiciones</a>. Entiendo que mi pedido se enviará por WhatsApp.</span>
+            <span>He leído la <a href="privacidad.html" target="_blank" rel="noopener">Política de privacidad</a> y los <a href="terminos.html" target="_blank" rel="noopener">Términos y condiciones</a>. Mis datos se usarán para atender el pedido; al continuar se abrirá WhatsApp. Si comparto mi ubicación, el negocio recibirá el enlace de Maps.</span>
         </label>
         <p class="carrito-aviso" id="carrito-aviso" role="alert"></p>
 

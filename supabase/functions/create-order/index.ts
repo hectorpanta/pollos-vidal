@@ -33,6 +33,9 @@ Deno.serve(async (req: Request) => {
     if (!input || typeof input !== 'object' || Array.isArray(input)) return json(req, 400, { error: 'Datos del pedido inválidos.' });
     const items = input.items;
     if (!Array.isArray(items) || items.length < 1 || items.length > 20) return json(req, 400, { error: 'Agrega productos al pedido.' });
+    if (input.delivery === 'Entrega a domicilio' && (typeof input.maps_url !== 'string' || input.maps_url.length > 500)) {
+      return json(req, 400, { error: 'Comparte un enlace válido de Google Maps.' });
+    }
     const ip = req.headers.get('cf-connecting-ip') || req.headers.get('x-real-ip') || req.headers.get('x-forwarded-for')?.split(',')[0].trim() || '';
     const salt = Deno.env.get('ORDER_RATE_LIMIT_SALT');
     if (!ip || !salt) return json(req, 503, { error: 'El servicio todavía no está configurado.' });
@@ -59,12 +62,13 @@ Deno.serve(async (req: Request) => {
       p_phone: input.phone,
       p_delivery: input.delivery,
       p_address: input.address || '',
+      p_maps_url: input.maps_url || '',
       p_payment: input.payment,
       p_items: items.map((item: { id: unknown; quantity: unknown }) => ({ id: item?.id, quantity: item?.quantity }))
     });
     if (!result.response.ok) {
       const errorMessage = typeof result.data?.message === 'string' ? result.data.message : '';
-      const message = /disponible|cantidad|teléfono|nombre|dirección|entrega|pago|total|productos|demasiados/i.test(errorMessage)
+      const message = /disponible|cantidad|teléfono|nombre|dirección|ubicación|google maps|entrega|pago|total|productos|demasiados/i.test(errorMessage)
         ? errorMessage : 'No se pudo registrar el pedido. Inténtalo nuevamente.';
       return json(req, 400, { error: message });
     }

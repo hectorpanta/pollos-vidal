@@ -327,14 +327,62 @@ document.addEventListener("keydown", function (e) {
 /* ---------- Enviar pedido ---------- */
 const campoDireccion = document.getElementById("campo-direccion");
 const entradaDireccion = document.getElementById("cliente-direccion");
+const entradaMaps = document.getElementById("cliente-maps");
+const estadoUbicacion = document.getElementById("estado-ubicacion");
+const botonUbicacion = document.getElementById("usar-ubicacion");
 
 document.querySelectorAll('input[name="entrega"]').forEach(function (radio) {
     radio.addEventListener("change", function () {
         const esDomicilio = document.querySelector('input[name="entrega"]:checked').value === "Entrega a domicilio";
         campoDireccion.hidden = !esDomicilio;
         entradaDireccion.required = esDomicilio;
-        if (!esDomicilio) entradaDireccion.value = "";
+        entradaMaps.required = esDomicilio;
+        if (!esDomicilio) {
+            entradaDireccion.value = "";
+            entradaMaps.value = "";
+            estadoUbicacion.textContent = "";
+        }
     });
+});
+
+function esEnlaceGoogleMaps(valor) {
+    try {
+        const url = new URL(valor);
+        const host = url.hostname.toLowerCase();
+        return url.protocol === "https:" && (
+            (host === "www.google.com" && url.pathname.startsWith("/maps")) ||
+            host === "maps.google.com" ||
+            host === "maps.app.goo.gl" ||
+            (host === "goo.gl" && url.pathname.startsWith("/maps/"))
+        );
+    } catch (_) {
+        return false;
+    }
+}
+
+botonUbicacion.addEventListener("click", function () {
+    estadoUbicacion.textContent = "";
+    if (!navigator.geolocation) {
+        estadoUbicacion.textContent = "Este navegador no permite compartir la ubicación. Pega un enlace de Google Maps.";
+        return;
+    }
+    botonUbicacion.disabled = true;
+    estadoUbicacion.textContent = "Solicitando permiso para obtener tu ubicación…";
+    navigator.geolocation.getCurrentPosition(function (posicion) {
+        const lat = posicion.coords.latitude.toFixed(6);
+        const lon = posicion.coords.longitude.toFixed(6);
+        entradaMaps.value = "https://www.google.com/maps?q=" + lat + "," + lon;
+        estadoUbicacion.textContent = "Ubicación lista. Se enviará al negocio junto con tu pedido.";
+        botonUbicacion.disabled = false;
+    }, function (error) {
+        const mensajes = {
+            1: "No se dio permiso para la ubicación. Puedes pegar manualmente un enlace de Google Maps.",
+            2: "No se pudo obtener la ubicación. Intenta otra vez o pega el enlace de Google Maps.",
+            3: "La ubicación tardó demasiado. Intenta otra vez o pega el enlace de Google Maps."
+        };
+        estadoUbicacion.textContent = mensajes[error.code] || "No se pudo obtener la ubicación. Pega un enlace de Google Maps.";
+        botonUbicacion.disabled = false;
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
 });
 
 function validarDatosPedido() {
@@ -357,6 +405,11 @@ function validarDatosPedido() {
         entradaDireccion.focus();
         return false;
     }
+    if (entrega === "Entrega a domicilio" && !esEnlaceGoogleMaps(entradaMaps.value.trim())) {
+        aviso.textContent = "Pega un enlace válido de Google Maps o usa el botón para compartir tu ubicación.";
+        entradaMaps.focus();
+        return false;
+    }
     return true;
 }
 
@@ -367,6 +420,7 @@ function construirMensaje(pago, pedido) {
     mensaje += "Entrega: " + pedido.delivery + "\n";
     if (pedido.delivery === "Entrega a domicilio") {
         mensaje += "Dirección y zona: " + pedido.address + "\n";
+        if (pedido.maps_url) mensaje += "Ubicación en Google Maps: " + pedido.maps_url + "\n";
     }
     pedido.items.forEach(function (item) {
         mensaje += "• " + item.quantity + " x " + item.name + " = " + (item.price * item.quantity) + " Bs\n";
@@ -391,6 +445,7 @@ async function guardarPedido(pago) {
         phone: document.getElementById("cliente-telefono").value.trim(),
         delivery: entrega,
         address: entrega === "Entrega a domicilio" ? entradaDireccion.value.trim() : "",
+        maps_url: entrega === "Entrega a domicilio" ? entradaMaps.value.trim() : "",
         payment: pago,
         items: Object.keys(carrito).map(function (id) { return { id: carrito[id].id, quantity: carrito[id].cantidad }; })
     };

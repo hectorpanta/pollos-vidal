@@ -1,35 +1,39 @@
-# Pollos Vidal en GitHub Pages + Supabase
+# Pollos Vidal: pedidos, administración y publicación
 
-GitHub Pages publica la página estática. Supabase proporciona la autenticación, la base de datos Postgres y la función que registra y valida pedidos. No se debe publicar una clave `service_role` en el repositorio.
+## Qué usa cada parte
 
-## Lo que falta para activar la conexión
+- **GitHub Pages** publica la tienda para los clientes.
+- **Supabase** guarda productos, pedidos y cuentas administrativas.
+- **`admin.html`** es una página aparte para Héctor y la dueña. Muestra pedidos y ventas, permite cambiar el estado y editar precio o disponibilidad. Los usuarios sin autorización no pueden entrar al panel ni consultar pedidos.
+- En un pedido a domicilio, el cliente escribe la dirección y comparte un enlace de Google Maps o autoriza al navegador a crear uno con su ubicación actual. El enlace se guarda en el pedido, aparece en el panel y se incluye en el mensaje de WhatsApp.
 
-1. En `supabase-config.js` ya está puesta la clave pública `publishable` del proyecto `ajcfhezpszevdbmaluye`. Esta clave puede estar en JavaScript público porque el acceso a los datos se limita con RLS.
-2. En Supabase, abre **SQL Editor** y ejecuta `supabase/schema.sql`.
-3. En **Authentication**, desactiva la creación pública de cuentas y crea/invita las cuentas de las dos personas. Después agrega sus correos a `public.admin_users` con el ejemplo al final de `supabase/schema.sql`.
-4. Instala Supabase CLI y, desde esta carpeta, enlaza el proyecto y publica la función:
+## Activar los cambios en Supabase
 
-   ```powershell
-   supabase login
-   supabase link --project-ref ajcfhezpszevdbmaluye
+1. **Actualizar la base de datos.** Abre el proyecto `ajcfhezpszevdbmaluye` → **SQL Editor** → crea una consulta nueva. Pega todo el contenido de `supabase/schema.sql` y pulsa **Run**. El esquema actualizado añade la columna `maps_url` y actualiza la función de pedidos; se puede volver a ejecutar para actualizar la instalación anterior.
+2. **Guardar el secreto de pedidos.** En **Edge Functions** → **Secrets**, debe aparecer `ORDER_RATE_LIMIT_SALT`. El valor es privado y no debe ponerse en los archivos de la página ni en GitHub.
+3. **Actualizar la función.** En **Edge Functions**, abre `create-order`. Reemplaza el código por todo el contenido de `supabase/functions/create-order/index.ts`, conserva el nombre exacto `create-order` y pulsa **Deploy**.
+4. **Permitir pedidos de clientes sin cuenta.** En la configuración de `create-order`, la verificación JWT debe estar desactivada porque los clientes no inician sesión. Esto hace que la función acepte solicitudes públicas; su código limita el origen del sitio, valida los datos y los precios en el servidor, y aplica un límite de solicitudes. No publiques la clave secreta del proyecto.
+
+## Dar acceso a Héctor y a la dueña
+
+1. En **Authentication → Users**, usa la cuenta existente de Héctor (no hace falta volver a invitar un correo que ya está registrado). Crea o invita a la dueña cuando tengas su correo.
+2. En **SQL Editor**, sustituye los dos valores de ejemplo por los correos exactos de esas cuentas y ejecuta:
+
+   ```sql
+   insert into public.admin_users(email, display_name) values
+     ('CORREO_DE_HECTOR', 'Héctor'),
+     ('CORREO_DE_LA_DUENA', 'Dueña')
+   on conflict (email) do update set display_name = excluded.display_name;
    ```
 
-   Crea un archivo local `.env.supabase` con `ORDER_RATE_LIMIT_SALT` (un valor aleatorio privado de al menos 32 caracteres), y guárdalo como secreto de la función:
+3. Ambos ingresan con su propia cuenta en `admin.html`. La ruta pública será la dirección de tu sitio seguida de `/admin.html`. La dueña puede administrar pedidos y el menú desde ahí.
 
-   ```powershell
-   supabase secrets set --env-file .env.supabase
-   supabase functions deploy create-order
-   ```
+## Subir los cambios a GitHub
 
-   Supabase entrega a la Edge Function la clave `SUPABASE_SECRET_KEYS` desde la configuración segura del proyecto. El archivo `.env.supabase` está excluido de Git. Nunca copies claves secretas al sitio ni las compartas por chat.
-5. Publica los archivos de la carpeta en GitHub Pages. El dominio de GitHub Pages ya está permitido por la función: `https://hectorpanta.github.io`.
+En VS Code abre **Control de código fuente** (`Ctrl + Shift + G`), agrega los archivos modificados con `+`, escribe un mensaje como `Mejorar pedidos y panel administrativo`, pulsa **Commit** y después **Sync Changes**. Al subir `main`, GitHub Pages publica los cambios del sitio. El código de la Edge Function también debe actualizarse en Supabase como se indica arriba; subirlo a GitHub no lo despliega automáticamente.
 
-## Qué incluye
+La clave `publishable` de Supabase está pensada para el código del navegador. No agregues claves `service_role`, `sb_secret`, contraseñas ni el valor de `ORDER_RATE_LIMIT_SALT` al repositorio.
 
-- El menú obtiene precios y disponibilidad de Supabase.
-- El pedido se valida y guarda en una operación de base de datos; el servidor recalcula el total con los precios actuales.
-- El panel requiere iniciar sesión con una de las cuentas autorizadas. Las políticas RLS bloquean los pedidos para visitantes y dejan a los administradores actualizar estados, precios y disponibilidad.
-- La página manda el pedido a WhatsApp después de guardarlo en Supabase. Los pagos QR aún deben verificarse manualmente.
-- Los datos se guardan en `orders` y `order_items`; los productos están en `products`.
+## Nota sobre pagos
 
-Completa también el nombre, NIT, domicilio y contacto del titular en las páginas legales antes de publicar.
+El sitio registra pedidos, pero no cobra en línea. Los pedidos con QR requieren que el negocio revise manualmente el comprobante recibido por WhatsApp antes de confirmar el pago.
