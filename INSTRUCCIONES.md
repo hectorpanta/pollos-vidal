@@ -8,6 +8,15 @@
 - **`admin.html`** es una página aparte para Héctor y la dueña. Muestra pedidos y ventas, permite cambiar el estado y editar precio o disponibilidad. Los usuarios sin autorización no pueden entrar al panel ni consultar pedidos.
 - En un pedido a domicilio, el cliente escribe la dirección y comparte un enlace de Google Maps o autoriza al navegador a crear uno con su ubicación actual. El enlace se guarda en el pedido, aparece en el panel y se incluye en el mensaje de WhatsApp.
 
+## Carpetas del sitio
+
+- Los archivos HTML (`index.html`, `admin.html` y las páginas legales) permanecen en la raíz para que GitHub Pages conserve sus direcciones.
+- `assets/css/` contiene los estilos.
+- `assets/js/` contiene el código JavaScript y la configuración pública de Supabase.
+- `assets/images/` contiene las imágenes y el QR de pago; `assets/images/originales/` guarda las imágenes originales.
+- `assets/icons/` contiene los iconos.
+- `supabase/` conserva el esquema de la base de datos y la función para registrar pedidos.
+
 ## Activar los cambios en Supabase
 
 1. **Actualizar la base de datos.** Abre el proyecto `ajcfhezpszevdbmaluye` → **SQL Editor** → crea una consulta nueva. Pega todo el contenido de `supabase/schema.sql` y pulsa **Run**. El esquema actualizado añade las columnas `maps_url` y `payment_status`, y actualiza la función de pedidos; se puede volver a ejecutar para actualizar la instalación anterior. Los pedidos existentes empiezan como pago pendiente hasta que se revisen.
