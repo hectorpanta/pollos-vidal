@@ -10,7 +10,7 @@
 
 ## Activar los cambios en Supabase
 
-1. **Actualizar la base de datos.** Abre el proyecto `ajcfhezpszevdbmaluye` → **SQL Editor** → crea una consulta nueva. Pega todo el contenido de `supabase/schema.sql` y pulsa **Run**. El esquema actualizado añade la columna `maps_url` y actualiza la función de pedidos; se puede volver a ejecutar para actualizar la instalación anterior.
+1. **Actualizar la base de datos.** Abre el proyecto `ajcfhezpszevdbmaluye` → **SQL Editor** → crea una consulta nueva. Pega todo el contenido de `supabase/schema.sql` y pulsa **Run**. El esquema actualizado añade las columnas `maps_url` y `payment_status`, y actualiza la función de pedidos; se puede volver a ejecutar para actualizar la instalación anterior. Los pedidos existentes empiezan como pago pendiente hasta que se revisen.
 2. **Guardar el secreto de pedidos.** En **Edge Functions** → **Secrets**, debe aparecer `ORDER_RATE_LIMIT_SALT`. El valor es privado y no debe ponerse en los archivos de la página ni en GitHub.
 3. **Actualizar la función.** En **Edge Functions**, abre `create-order`. Reemplaza el código por todo el contenido de `supabase/functions/create-order/index.ts`, conserva el nombre exacto `create-order` y pulsa **Deploy**.
 4. **Proteger el envío de pedidos.** Mantén **Verify JWT** activado para `create-order`; los clientes deben iniciar sesión antes de usar la tienda y el cliente de Supabase envía su sesión al registrar el pedido. La función valida los datos y aplica un límite de solicitudes. No publiques claves secretas.
@@ -33,7 +33,15 @@ La pantalla de inicio evita que los visitantes normales usen la tienda sin inici
    on conflict (email) do update set display_name = excluded.display_name;
    ```
 
-3. Ambos ingresan con su propia cuenta en `admin.html`. La ruta pública será la dirección de tu sitio seguida de `/admin.html`. La dueña puede administrar pedidos y el menú desde ahí.
+3. Ambos ingresan con su propia cuenta en `admin.html`. La ruta pública será la dirección de tu sitio seguida de `/admin.html`. La dueña puede administrar pedidos y el menú desde ahí. El acceso no depende de ocultar la dirección: la base de datos valida la sesión y compara el correo con la lista privada `admin_users`; solo los correos incluidos en esa tabla tienen permisos. Comprueba en **SQL Editor** que la lista tenga exactamente las dos cuentas autorizadas:
+
+   ```sql
+   select email, display_name from public.admin_users order by email;
+   ```
+
+   No agregues cuentas de clientes a esa tabla ni compartas las contraseñas. Las políticas de Supabase impiden que una cuenta normal consulte pedidos o modifique el menú.
+
+4. El panel muestra pedidos recientes, estados, pagos, disponibilidad y ventas del día. Para efectivo, marca el pago como **Recibido** después de cobrar. Para QR, verifica primero que el abono aparezca en la cuenta y luego marca **Recibido**; un comprobante por WhatsApp por sí solo no confirma el pago. El resumen del mes muestra los pedidos aceptados y los pagos marcados como recibidos. Son montos de ventas y pagos registrados, no utilidad neta, porque todavía no se registran costos ni gastos.
 
 ## Subir los cambios a GitHub
 

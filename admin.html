@@ -17,7 +17,7 @@
       <a class="brand" href="index.html"><img src="img/logo.webp" alt=""><span>Pollos Vidal</span></a>
       <p class="eyebrow">ÁREA PRIVADA</p>
       <h1 id="login-title">Administración del negocio</h1>
-      <p class="muted">Tú y la dueña pueden ingresar con sus propias cuentas.</p>
+      <p class="muted">Solo pueden ingresar las cuentas autorizadas del programador y de la dueña. Tener este enlace no da acceso.</p>
       <form id="login-form">
         <label>Correo electrónico<input name="email" type="email" autocomplete="username" required maxlength="254"></label>
         <label>Contraseña<input name="password" type="password" autocomplete="current-password" required maxlength="256"></label>
@@ -32,13 +32,17 @@
         <a class="brand" href="index.html"><img src="img/logo.webp" alt=""><span>Pollos Vidal</span></a>
         <div class="top-actions"><span id="owner-name"></span><button class="quiet" id="logout" type="button">Cerrar sesión</button></div>
       </header>
-      <div class="intro"><div><p class="eyebrow">ADMINISTRACIÓN</p><h1>Panel del negocio</h1><p class="muted">Pedidos, ventas del día y disponibilidad del menú.</p></div><button class="quiet" id="refresh" type="button">↻ Actualizar</button></div>
+      <div class="intro"><div><p class="eyebrow">ADMINISTRACIÓN</p><h1>Panel del negocio</h1><p class="muted">Pedidos, ventas y disponibilidad del menú.</p></div><button class="quiet" id="refresh" type="button">↻ Actualizar</button></div>
       <p class="notice" id="global-error" role="alert"></p>
-      <section class="stats" aria-label="Resumen del día">
+      <div class="month-control"><label for="sales-month">Mes a consultar</label><input id="sales-month" type="month"></div>
+      <section class="stats" aria-label="Resumen de pedidos y ventas">
         <article class="stat"><span>Pedidos de hoy</span><strong id="stat-orders">0</strong></article>
-        <article class="stat"><span>Ventas confirmadas hoy</span><strong id="stat-sales">0 Bs</strong></article>
+        <article class="stat"><span>Ventas registradas hoy</span><strong id="stat-sales">0 Bs</strong></article>
         <article class="stat"><span>Pedidos en curso</span><strong id="stat-pending">0</strong></article>
+        <article class="stat stat-month"><span>Ventas registradas del mes</span><strong id="stat-month-sales">Cargando…</strong><small id="stat-month-count"></small></article>
+        <article class="stat stat-month"><span>Pagos recibidos del mes</span><strong id="stat-month-paid">Cargando…</strong><small id="stat-month-paid-count"></small></article>
       </section>
+      <p class="financial-note">El total mensual suma pedidos confirmados, en preparación, listos o entregados. Es venta registrada, no utilidad neta: no descuenta compras, sueldos ni otros gastos.</p>
       <section class="panel"><div class="section-heading"><div><h2>Pedidos</h2><p class="muted">Revisa los datos del cliente, el pago y avanza el estado.</p></div><label class="filter">Estado<select id="status-filter"><option value="todos">Todos</option><option value="nuevo">Nuevos</option><option value="confirmado">Confirmados</option><option value="preparando">Preparando</option><option value="listo">Listos</option><option value="entregado">Entregados</option><option value="cancelado">Cancelados</option></select></label></div>
         <div id="orders" class="orders"><p class="muted">Cargando pedidos…</p></div>
       </section>
