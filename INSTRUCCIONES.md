@@ -5,12 +5,12 @@
 - **GitHub Pages** publica la tienda para los clientes.
 - **Supabase** guarda productos, pedidos y cuentas de clientes y administración.
 - La tienda pide una cuenta para entrar. El cliente se registra con correo, teléfono de contacto y contraseña; para volver a entrar usa el correo y la contraseña. El teléfono se guarda como dato de contacto, no se verifica por SMS.
-- **`admin.html`** es una página aparte para Héctor y la dueña. Muestra pedidos y ventas, permite cambiar el estado y editar precio o disponibilidad. Los usuarios sin autorización no pueden entrar al panel ni consultar pedidos.
+- **`admin/index.html`** es una página aparte para Héctor y la dueña. Se abre con la dirección del sitio seguida de `/admin/`. Muestra pedidos y ventas, permite cambiar el estado y editar precio o disponibilidad. Los usuarios sin autorización no pueden entrar al panel ni consultar pedidos.
 - En un pedido a domicilio, el cliente escribe la dirección y comparte un enlace de Google Maps o autoriza al navegador a crear uno con su ubicación actual. El enlace se guarda en el pedido, aparece en el panel y se incluye en el mensaje de WhatsApp.
 
 ## Carpetas del sitio
 
-- Los archivos HTML (`index.html`, `admin.html` y las páginas legales) permanecen en la raíz para que GitHub Pages conserve sus direcciones.
+- La página pública y las páginas legales permanecen en la raíz. El panel está en `admin/index.html` para abrirse con la ruta limpia `/admin/`.
 - `assets/css/` contiene los estilos.
 - `assets/js/` contiene el código JavaScript y la configuración pública de Supabase.
 - `assets/images/` contiene las imágenes y el QR de pago; `assets/images/originales/` guarda las imágenes originales.
@@ -42,7 +42,7 @@ La pantalla de inicio evita que los visitantes normales usen la tienda sin inici
    on conflict (email) do update set display_name = excluded.display_name;
    ```
 
-3. Ambos ingresan con su propia cuenta en `admin.html`. La ruta pública será la dirección de tu sitio seguida de `/admin.html`. La dueña puede administrar pedidos y el menú desde ahí. El acceso no depende de ocultar la dirección: la base de datos valida la sesión y compara el correo con la lista privada `admin_users`; solo los correos incluidos en esa tabla tienen permisos. Comprueba en **SQL Editor** que la lista tenga exactamente las dos cuentas autorizadas:
+3. Ambos ingresan con su propia cuenta en `/admin/`. La dueña puede administrar pedidos y el menú desde ahí. El acceso no depende de ocultar la dirección: la base de datos valida la sesión y compara el correo con la lista privada `admin_users`; solo los correos incluidos en esa tabla tienen permisos. Comprueba en **SQL Editor** que la lista tenga exactamente las dos cuentas autorizadas:
 
    ```sql
    select email, display_name from public.admin_users order by email;
