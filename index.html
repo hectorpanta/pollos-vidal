@@ -36,39 +36,6 @@
     </script>
 </head>
 <body>
-    <section id="acceso-clientes" class="acceso-clientes" aria-labelledby="acceso-titulo">
-        <div class="acceso-tarjeta">
-            <img src="assets/images/logo.webp" alt="" class="acceso-logo">
-            <p class="acceso-etiqueta">Pollos Vidal · tienda en línea</p>
-            <h1 id="acceso-titulo">Inicia sesión para entrar</h1>
-            <p id="acceso-ayuda">Ingresa con tu correo y contraseña. Si todavía no tienes cuenta, puedes crear una.</p>
-            <form id="acceso-form">
-                <label for="acceso-correo">Correo electrónico
-                    <input id="acceso-correo" name="email" type="email" autocomplete="username" required maxlength="254">
-                </label>
-                <label id="acceso-telefono-fila" for="acceso-telefono" hidden>Número de teléfono de contacto
-                    <input id="acceso-telefono" name="phone" type="tel" autocomplete="tel" minlength="7" maxlength="30" disabled>
-                </label>
-                <label for="acceso-contrasena">Contraseña
-                    <input id="acceso-contrasena" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="256" required>
-                </label>
-                <label id="acceso-confirmar-fila" for="acceso-confirmar-contrasena" hidden>Repite la contraseña nueva
-                    <input id="acceso-confirmar-contrasena" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" maxlength="256" disabled>
-                </label>
-                <label id="acceso-consentimiento-fila" class="acceso-consentimiento" hidden>
-                    <input id="acceso-consentimiento" type="checkbox" disabled>
-                    <span>Leí y acepto la <a href="legal/privacidad.html" target="_blank" rel="noopener">Política de privacidad</a> y los <a href="legal/terminos.html" target="_blank" rel="noopener">Términos</a>.</span>
-                </label>
-                <p id="acceso-mensaje" class="acceso-mensaje" role="status" aria-live="polite"></p>
-                <button id="acceso-enviar" class="acceso-boton" type="submit">Ingresar</button>
-                <button id="acceso-recuperar" class="acceso-alternar" type="button">Olvidé mi contraseña</button>
-            </form>
-            <button id="acceso-cambiar-modo" class="acceso-alternar" type="button">Crear una cuenta</button>
-            <p class="acceso-nota">Al crear una cuenta se te pedirá correo, teléfono de contacto y contraseña. El correo se usa para ingresar; el teléfono sirve para coordinar tus pedidos.</p>
-        </div>
-    </section>
-
-    <div id="contenido-protegido" hidden>
     <a class="saltar" href="#contenido">Saltar al contenido</a>
 
     <header class="header">
@@ -85,7 +52,6 @@
             <a href="#contacto">Contacto</a>
         </nav>
         <div class="estado" id="estado" role="status">Cargando horario...</div>
-        <button id="cerrar-sesion-cliente" class="cerrar-sesion-cliente" type="button" hidden>Cerrar sesión</button>
     </header>
 
     <main id="contenido">
@@ -169,12 +135,6 @@
         <h2 id="titulo-contacto">Contáctanos</h2>
         <p><a href="#" id="enlace-telefono"></a></p>
         <a href="#" class="boton boton-whatsapp js-whatsapp"><img class="icono-wsp" src="assets/icons/whatsapp.png" alt="">Escribir por WhatsApp</a>
-        <address class="datos-negocio">
-            <strong>Pollos Vidal</strong><br>
-            Titular: <mark class="pendiente">Heidy Valdivia Lopez</mark><br>
-            NIT: <mark class="pendiente">1020304015</mark><br>
-            Dirección: <mark class="pendiente">Avenida Río Paraguay</mark>, Cochabamba, Bolivia<br>
-        </address>
     </section>
     </main>
 
@@ -187,7 +147,6 @@
             <a href="legal/reembolso.html">Reembolsos y reclamos</a>
         </nav>
         <p>&copy; 2026 Pollos Vidal. Todos los derechos reservados.</p>
-        <a href="admin/" class="acceso-admin">Administración del negocio</a>
     </footer>
 
     <a href="#" class="wsp-flotante js-whatsapp" aria-label="Escribir por WhatsApp"><img src="assets/icons/whatsapp.png" alt=""></a>
@@ -266,8 +225,6 @@
             <button class="boton boton-whatsapp boton-ancho" id="pagado-qr" type="button"><img class="icono-wsp" src="assets/icons/whatsapp.png" alt="">Continuar por WhatsApp y adjuntar comprobante</button>
         </div>
     </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase-config.js"></script>
     <script src="assets/js/script.js"></script>

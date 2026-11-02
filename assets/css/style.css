@@ -61,12 +61,6 @@ footer :focus-visible,
     box-shadow: 0 0 0 6px #ffffff;
 }
 
-mark.pendiente {
-    background: #fff176;
-    color: #1a1a1a;
-    padding: 0 3px;
-}
-
 /* ---------- HEADER ---------- */
 .header {
     background-color: var(--rojo);
@@ -582,125 +576,6 @@ footer {
 .legal .actualizado { color: var(--texto-suave); font-size: 14px; margin-top: 0; }
 .legal .volver { font-weight: bold; text-decoration: none; }
 .legal ul { padding-left: 22px; }
-.acceso-admin { display: inline-block; margin: 4px 0 14px; color: var(--texto-suave); font-size: 13px; }
-
-/* ---------- ACCESO DE CLIENTES ---------- */
-.acceso-clientes {
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    box-sizing: border-box;
-    padding: 24px;
-    background: linear-gradient(145deg, #fff8ed, #fdfbf7 55%, #f3e8dc);
-}
-.acceso-clientes[hidden],
-#contenido-protegido[hidden],
-#cerrar-sesion-cliente[hidden] { display: none !important; }
-.acceso-tarjeta {
-    width: min(100%, 420px);
-    box-sizing: border-box;
-    padding: 32px;
-    border: 1px solid #eadfd2;
-    border-radius: 18px;
-    background: #ffffff;
-    box-shadow: 0 12px 36px rgba(55, 34, 20, 0.12);
-    text-align: center;
-}
-.acceso-logo {
-    width: 76px;
-    height: 76px;
-    object-fit: contain;
-    border-radius: 50%;
-    background: #ffffff;
-}
-.acceso-etiqueta {
-    margin: 12px 0 5px;
-    color: var(--rojo);
-    font-size: 14px;
-    font-weight: bold;
-}
-.acceso-tarjeta h1 { margin: 0 0 8px; color: #29211c; font-size: 26px; }
-.acceso-tarjeta > p:not(.acceso-etiqueta):not(.acceso-nota) { color: var(--texto-suave); line-height: 1.5; }
-.acceso-tarjeta form { margin-top: 22px; text-align: left; }
-.acceso-tarjeta form > label:not(.acceso-consentimiento) {
-    display: block;
-    margin: 14px 0;
-    color: #302923;
-    font-size: 14px;
-    font-weight: bold;
-}
-.acceso-tarjeta input[type="email"],
-.acceso-tarjeta input[type="tel"],
-.acceso-tarjeta input[type="password"] {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 6px;
-    padding: 12px;
-    border: 1px solid #b8ada2;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #1a1a1a;
-    font: inherit;
-}
-.acceso-tarjeta input:focus { outline: 3px solid rgba(191, 54, 12, 0.2); border-color: var(--rojo); }
-.acceso-consentimiento {
-    display: flex;
-    align-items: flex-start;
-    gap: 9px;
-    margin: 16px 0;
-    color: var(--texto);
-    font-size: 13px;
-    line-height: 1.45;
-}
-.acceso-consentimiento[hidden] { display: none !important; }
-#acceso-telefono-fila[hidden],
-#acceso-confirmar-fila[hidden],
-#acceso-recuperar[hidden],
-#acceso-cambiar-modo[hidden] { display: none !important; }
-.acceso-consentimiento input { margin-top: 3px; }
-.acceso-consentimiento a { color: var(--rojo); }
-.acceso-mensaje { min-height: 22px; margin: 12px 0; color: var(--rojo); font-size: 14px; line-height: 1.45; }
-.acceso-boton {
-    width: 100%;
-    padding: 12px 16px;
-    border: 0;
-    border-radius: 8px;
-    background: var(--rojo);
-    color: #ffffff;
-    font: inherit;
-    font-weight: bold;
-    cursor: pointer;
-}
-.acceso-boton:hover { background: var(--rojo-hover); }
-.acceso-boton:disabled { opacity: 0.65; cursor: wait; }
-.acceso-alternar {
-    margin: 14px 0 0;
-    padding: 8px;
-    border: 0;
-    background: transparent;
-    color: var(--rojo);
-    font: inherit;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: underline;
-}
-.acceso-alternar:disabled { opacity: 0.65; cursor: wait; }
-.acceso-nota { margin: 15px 0 0; color: var(--texto-suave); font-size: 12px; line-height: 1.5; }
-.cerrar-sesion-cliente {
-    display: block;
-    margin: 12px auto 0;
-    padding: 7px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.75);
-    border-radius: 7px;
-    background: transparent;
-    color: #ffffff;
-    font: inherit;
-    cursor: pointer;
-}
-.cerrar-sesion-cliente:hover { background: rgba(255, 255, 255, 0.12); }
-.cerrar-sesion-cliente:disabled { opacity: 0.65; cursor: wait; }
-
 /* ---------- ANIMACIÓN AL HACER SCROLL ---------- */
 .js .reveal {
     opacity: 0;
