@@ -213,7 +213,7 @@ footer :focus-visible,
 /* ---------- TARJETAS ---------- */
 .productos-grid {
     display: grid;
-    grid-template-columns: minmax(250px, 300px) minmax(250px, 300px) minmax(430px, 520px);
+    grid-template-columns: minmax(250px, 300px) minmax(250px, 300px) minmax(410px, 500px);
     justify-content: center;
     gap: 24px;
 }
@@ -613,7 +613,7 @@ footer {
     .productos-grid > .card { width: 300px; justify-self: center; }
     .productos-grid > .card:nth-child(3) {
         grid-column: 1 / -1;
-        width: min(100%, 600px);
+        width: min(100%, 560px);
     }
 }
 
