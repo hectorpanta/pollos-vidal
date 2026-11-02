@@ -213,7 +213,7 @@ footer :focus-visible,
 /* ---------- TARJETAS ---------- */
 .productos-grid {
     display: grid;
-    grid-template-columns: minmax(250px, 300px) minmax(250px, 300px) minmax(480px, 600px);
+    grid-template-columns: minmax(250px, 300px) minmax(250px, 300px) minmax(430px, 520px);
     justify-content: center;
     gap: 24px;
 }
@@ -253,8 +253,8 @@ footer :focus-visible,
     border-left: 1px solid #eeeeee;
     padding-left: 16px;
 }
-.nombre-opcion { margin: 0 0 8px; color: #333333; font-size: 15px; }
-.opcion-pollo-entero p { margin: 0 0 8px; }
+.nombre-opcion { margin: 0 0 7px; color: #333333; font-size: 14px; }
+.opcion-pollo-entero p { margin: 0 0 7px; font-size: 14px; }
 .opcion-pollo-entero .btn-agregar { font-size: 14px; padding: 9px 6px; }
 
 .precio { color: var(--verde); font-weight: bold; font-size: 18px; }
@@ -613,7 +613,7 @@ footer {
     .productos-grid > .card { width: 300px; justify-self: center; }
     .productos-grid > .card:nth-child(3) {
         grid-column: 1 / -1;
-        width: min(100%, 680px);
+        width: min(100%, 600px);
     }
 }
 
