@@ -177,9 +177,30 @@
     const form = event.target.closest('[data-product]'); if (!form) return;
     event.preventDefault(); globalError('');
     const values = new FormData(form);
-    const {error} = await client.from('products').update({name:values.get('name'),price:Number(values.get('price')),active:values.has('active')}).eq('id',form.dataset.product);
-    if (error) globalError(errorMessage(error));
-    await loadDashboard();
+    const button = form.querySelector('button[type="submit"]');
+    const buttonText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Guardando…';
+    try {
+      const {data,error} = await client.from('products')
+        .update({name:values.get('name'),price:Number(values.get('price')),active:values.has('active')})
+        .eq('id',form.dataset.product)
+        .select('id,name,price,active')
+        .maybeSingle();
+      if (error) throw error;
+      if (!data) throw new Error('No se actualizó ningún producto. Comprueba que tu sesión de administradora siga activa.');
+      const index = dashboard.products.findIndex(product => product.id === data.id);
+      if (index !== -1) dashboard.products[index] = {...dashboard.products[index],...data};
+      renderProducts();
+      globalError('Producto guardado correctamente. El cambio ya está en la base de datos.');
+    } catch (err) {
+      globalError(`No se pudo guardar el producto: ${errorMessage(err)}`);
+    } finally {
+      if (button.isConnected) {
+        button.disabled = false;
+        button.textContent = buttonText;
+      }
+    }
   });
   document.getElementById('status-filter').addEventListener('change', renderOrders);
   document.getElementById('sales-month').value = boliviaMonthValue();
