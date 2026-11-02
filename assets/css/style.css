@@ -243,6 +243,13 @@ footer :focus-visible,
 .card-content { padding: 20px; }
 .card-content h3 { color: var(--rojo); }
 .card-content p { color: #555555; line-height: 1.4; }
+.opcion-pollo-entero + .opcion-pollo-entero {
+    border-top: 1px solid #eeeeee;
+    margin-top: 18px;
+    padding-top: 16px;
+}
+.nombre-opcion { margin: 0 0 8px; color: #333333; font-size: 16px; }
+.opcion-pollo-entero p { margin: 0 0 8px; }
 
 .precio { color: var(--verde); font-weight: bold; font-size: 18px; }
 

@@ -42,6 +42,16 @@ if (supabaseClient) {
             boton.dataset.nombre = producto.name;
             boton.dataset.precio = String(producto.price);
             boton.setAttribute("aria-label", "Agregar " + producto.name + " al pedido, " + producto.price + " bolivianos");
+            const opcion = boton.closest("[data-opcion-producto]");
+            if (opcion) {
+                opcion.querySelector(".nombre-opcion").textContent = producto.name;
+                opcion.querySelector(".precio").textContent = producto.price + " Bs";
+                opcion.querySelector("p").textContent = producto.description;
+                opcion.hidden = !producto.active;
+                const opciones = tarjeta.querySelectorAll("[data-opcion-producto]");
+                tarjeta.hidden = !Array.from(opciones).some(function (elemento) { return !elemento.hidden; });
+                return;
+            }
             tarjeta.querySelector("h3").textContent = producto.name;
             tarjeta.querySelector(".precio").textContent = producto.price + " Bs";
             tarjeta.querySelector("p").textContent = producto.description;
