@@ -212,15 +212,16 @@ footer :focus-visible,
 
 /* ---------- TARJETAS ---------- */
 .productos-grid {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(250px, 300px) minmax(250px, 300px) minmax(480px, 600px);
     justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
+    gap: 24px;
 }
 
 .card {
     background-color: white;
-    width: 300px;
+    width: auto;
+    min-width: 0;
     border: 2px solid #eeeeee;
     border-radius: 15px;
     transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
@@ -243,13 +244,18 @@ footer :focus-visible,
 .card-content { padding: 20px; }
 .card-content h3 { color: var(--rojo); }
 .card-content p { color: #555555; line-height: 1.4; }
-.opcion-pollo-entero + .opcion-pollo-entero {
-    border-top: 1px solid #eeeeee;
-    margin-top: 18px;
-    padding-top: 16px;
+.opciones-pollo-entero {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
 }
-.nombre-opcion { margin: 0 0 8px; color: #333333; font-size: 16px; }
+.opcion-pollo-entero + .opcion-pollo-entero {
+    border-left: 1px solid #eeeeee;
+    padding-left: 16px;
+}
+.nombre-opcion { margin: 0 0 8px; color: #333333; font-size: 15px; }
 .opcion-pollo-entero p { margin: 0 0 8px; }
+.opcion-pollo-entero .btn-agregar { font-size: 14px; padding: 9px 6px; }
 
 .precio { color: var(--verde); font-weight: bold; font-size: 18px; }
 
@@ -599,7 +605,29 @@ footer {
 }
 
 /* ---------- CELULAR ---------- */
+@media (max-width: 1100px) {
+    .productos-grid {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+        gap: 24px;
+    }
+    .productos-grid > .card { width: 300px; justify-self: center; }
+    .productos-grid > .card:nth-child(3) {
+        grid-column: 1 / -1;
+        width: min(100%, 680px);
+    }
+}
+
 @media (max-width: 700px) {
+    .productos-grid { grid-template-columns: minmax(0, 1fr); }
+    .productos-grid > .card,
+    .productos-grid > .card:nth-child(3) { width: min(100%, 360px); grid-column: auto; }
+    .opciones-pollo-entero { grid-template-columns: minmax(0, 1fr); }
+    .opcion-pollo-entero + .opcion-pollo-entero {
+        border-left: 0;
+        border-top: 1px solid #eeeeee;
+        margin-top: 2px;
+        padding: 14px 0 0;
+    }
     .hamburguesa { display: block; }
     .nav { display: none; flex-direction: column; gap: 12px; margin-top: 15px; }
     .nav.abierto { display: flex; }
