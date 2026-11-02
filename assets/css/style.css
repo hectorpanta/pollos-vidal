@@ -632,7 +632,14 @@ footer {
     .productos-grid { grid-template-columns: minmax(0, 1fr); }
     .productos-grid > .card,
     .productos-grid > .card:nth-child(3) { width: min(100%, 360px); grid-column: auto; }
+    .card { display: block; }
+    .foto-pollo { flex: initial; }
+    .card-content { display: block; }
+    .card-content > .btn-agregar,
+    .opcion-pollo-entero .btn-agregar { margin-top: 15px; }
     .opciones-pollo-entero { grid-template-columns: minmax(0, 1fr); }
+    .opciones-pollo-entero { margin-top: 0; }
+    .opcion-pollo-entero { display: block; }
     .opcion-pollo-entero + .opcion-pollo-entero {
         border-left: 0;
         border-top: 1px solid #eeeeee;
