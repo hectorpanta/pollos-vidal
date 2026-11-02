@@ -44,9 +44,10 @@ create table if not exists public.order_rate_limits (
 );
 
 insert into public.products(id, name, description, price) values
-  ('broaster', 'Pollo Broaster', 'Empanizado y frito, acompañado de arroz, tallarín y papas fritas.', 17),
-  ('spiedo', 'Pollo al Spiedo', 'Asado lentamente, acompañado de arroz, tallarín y papas.', 17),
-  ('combo', 'Combo Familiar', '1 pollo entero (broaster o spiedo) con acompañamientos a elección, para compartir.', 90)
+  ('broaster', 'Pollo Broaster Económico', 'Empanizado y frito, acompañado de arroz, tallarín y papas fritas.', 17),
+  ('spiedo', 'Pollo al Spiedo Económico', 'Porción de pollo al spiedo con arroz, tallarín y papas.', 17),
+  ('combo', 'Pollo Entero', 'Pollo entero, sin guarniciones.', 90),
+  ('pollo-entero-guarniciones', 'Pollo Entero con Guarniciones', 'Pollo entero acompañado de arroz, tallarín y papas.', 120)
 on conflict (id) do nothing;
 
 alter table public.products enable row level security;

@@ -5,6 +5,7 @@
 - **GitHub Pages** publica la tienda para los clientes.
 - **Supabase** guarda productos y pedidos. Authentication se usa para las cuentas administrativas, no para los clientes.
 - La tienda pública abre directamente. Los clientes pueden consultar el menú y pedir sin crear una cuenta ni iniciar sesión; el pedido solicita nombre y teléfono para coordinar.
+- El menú tiene pollo broaster económico (17 Bs), pollo al spiedo económico (17 Bs), pollo entero sin guarniciones (90 Bs) y pollo entero con guarniciones (120 Bs).
 - **`admin/index.html`** es una página aparte para Héctor y la dueña. Se abre con la dirección del sitio seguida de `/admin/`. Muestra pedidos y ventas, permite cambiar el estado y editar precio o disponibilidad. Los usuarios sin autorización no pueden entrar al panel ni consultar pedidos.
 - En un pedido a domicilio, el cliente escribe la dirección y comparte un enlace de Google Maps o autoriza al navegador a crear uno con su ubicación actual. El enlace se guarda en el pedido, aparece en el panel y se incluye en el mensaje de WhatsApp.
 
@@ -19,6 +20,8 @@
 - `supabase/` conserva el esquema de la base de datos y la función para registrar pedidos.
 
 ## Activar los cambios en Supabase
+
+Para actualizar solo los productos del menú existente, abre **SQL Editor**, crea una consulta y ejecuta el contenido de `supabase/migrations/2026-11-02-menu-productos.sql`. Esto actualiza los productos actuales y agrega la opción de pollo entero con guarniciones.
 
 1. **Actualizar la base de datos.** Abre el proyecto `ajcfhezpszevdbmaluye` → **SQL Editor** → crea una consulta nueva. Pega todo el contenido de `supabase/schema.sql` y pulsa **Run**. El esquema actualizado añade las columnas `maps_url` y `payment_status`, y actualiza la función de pedidos; se puede volver a ejecutar para actualizar la instalación anterior. Los pedidos existentes empiezan como pago pendiente hasta que se revisen.
 2. **Guardar el secreto de pedidos.** En **Edge Functions** → **Secrets**, debe aparecer `ORDER_RATE_LIMIT_SALT`. El valor es privado y no debe ponerse en los archivos de la página ni en GitHub.
