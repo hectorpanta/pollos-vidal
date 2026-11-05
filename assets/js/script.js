@@ -21,14 +21,57 @@ const CONFIG = {
 };
 
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const authFlowType = new URLSearchParams(window.location.hash.slice(1)).get("type");
+const isPasswordSetupFlow = authFlowType === "invite" || authFlowType === "recovery";
 
 const supabaseClient = (function () {
     const config = window.POLLOS_SUPABASE;
     if (!window.supabase || !config || !config.url || !config.publishableKey || config.publishableKey.startsWith("PEGA_AQUI")) return null;
     return window.supabase.createClient(config.url, config.publishableKey, {
-        auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+        auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: isPasswordSetupFlow }
     });
 })();
+
+const authSetup = document.getElementById("auth-setup");
+if (isPasswordSetupFlow && authSetup) {
+    authSetup.hidden = false;
+    const authSetupMessage = document.getElementById("auth-setup-message");
+    const authSetupForm = document.getElementById("auth-setup-form");
+    if (!supabaseClient) {
+        authSetupMessage.textContent = "No se pudo conectar. Vuelve a solicitar el correo de acceso.";
+        authSetupForm.querySelector("button").disabled = true;
+    } else {
+        supabaseClient.auth.getSession().then(({data, error}) => {
+            if (error || !data.session) {
+                authSetupMessage.textContent = "Este enlace ya venció o fue usado. Solicita un nuevo correo de recuperación desde /admin/.";
+                authSetupForm.querySelector("button").disabled = true;
+            }
+        });
+        authSetupForm.addEventListener("submit", async event => {
+            event.preventDefault();
+            authSetupMessage.textContent = "";
+            const password = document.getElementById("auth-new-password").value;
+            const repeatedPassword = document.getElementById("auth-repeat-password").value;
+            const button = authSetupForm.querySelector("button");
+            if (password !== repeatedPassword) {
+                authSetupMessage.textContent = "Las contraseñas no coinciden.";
+                return;
+            }
+            button.disabled = true;
+            button.textContent = "Guardando…";
+            const {error} = await supabaseClient.auth.updateUser({password});
+            if (error) {
+                authSetupMessage.textContent = error.message || "No se pudo guardar la contraseña. Solicita otro correo.";
+                button.disabled = false;
+                button.textContent = "Guardar contraseña";
+                return;
+            }
+            authSetupForm.hidden = true;
+            document.getElementById("auth-setup-title").textContent = "Contraseña creada";
+            document.querySelector(".auth-setup-copy").textContent = "Ya puedes entrar al panel con tu correo y la nueva contraseña.";
+        });
+    }
+}
 
 // Los precios y la disponibilidad vienen de Supabase.
 if (supabaseClient) {

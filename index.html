@@ -236,6 +236,21 @@
             <button class="boton boton-whatsapp boton-ancho" id="pagado-qr" type="button"><img class="icono-wsp" src="assets/icons/whatsapp.png" alt="">Continuar por WhatsApp y adjuntar comprobante</button>
         </div>
     </div>
+    <section class="auth-setup-modal" id="auth-setup" hidden aria-labelledby="auth-setup-title">
+        <div class="auth-setup-card" role="dialog" aria-modal="true" aria-labelledby="auth-setup-title">
+            <a href="index.html" class="auth-setup-brand"><img src="assets/images/logo.webp" alt=""><span>Pollos Vidal</span></a>
+            <p class="auth-setup-eyebrow">ACCESO ADMINISTRATIVO</p>
+            <h1 id="auth-setup-title">Crea tu contraseña</h1>
+            <p class="auth-setup-copy">Elige una contraseña para entrar al panel de administración.</p>
+            <form id="auth-setup-form">
+                <label>Nueva contraseña<input id="auth-new-password" type="password" autocomplete="new-password" minlength="8" required></label>
+                <label>Repite la contraseña<input id="auth-repeat-password" type="password" autocomplete="new-password" minlength="8" required></label>
+                <p class="auth-setup-message" id="auth-setup-message" role="alert"></p>
+                <button class="boton" type="submit">Guardar contraseña</button>
+            </form>
+            <a class="auth-setup-admin-link" href="admin/">Ir al panel</a>
+        </div>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase-config.js"></script>
     <script src="assets/js/script.js"></script>

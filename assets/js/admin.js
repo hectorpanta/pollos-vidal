@@ -53,6 +53,27 @@
     } catch (err) { error.textContent = errorMessage(err); }
   });
 
+  document.getElementById('password-recovery').addEventListener('click', async event => {
+    const email = document.querySelector('#login-form input[name="email"]').value.trim();
+    const error = document.getElementById('login-error');
+    error.textContent = '';
+    if (!email) {
+      error.textContent = 'Escribe el correo de la cuenta administradora primero.';
+      document.querySelector('#login-form input[name="email"]').focus();
+      return;
+    }
+    if (!client) { error.textContent = 'Falta configurar la conexión con Supabase.'; return; }
+    const button = event.currentTarget;
+    button.disabled = true;
+    try {
+      const redirectTo = new URL('../', window.location.href).href;
+      const {error:resetError} = await client.auth.resetPasswordForEmail(email, {redirectTo});
+      if (resetError) throw resetError;
+      error.textContent = 'Si el correo pertenece a una cuenta, recibirá un enlace para crear o cambiar su contraseña. Revisa también el correo no deseado.';
+    } catch (err) { error.textContent = errorMessage(err); }
+    finally { button.disabled = false; }
+  });
+
   async function loadDashboard() {
     globalError('');
     try {
