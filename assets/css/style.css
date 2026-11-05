@@ -406,6 +406,7 @@ footer {
     visibility: hidden;
 }
 .panel-carrito.abierto { right: 0; visibility: visible; }
+.panel-carrito > :not(.carrito-lista) { flex-shrink: 0; }
 
 .panel-cabecera { display: flex; justify-content: space-between; align-items: center; }
 .panel-cabecera h2 { color: var(--rojo); margin: 0; font-size: 20px; }
