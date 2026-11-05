@@ -470,7 +470,7 @@ function validarDatosPedido() {
 
 function construirMensaje(pago, pedido) {
     let mensaje = "Hola Pollos Vidal, quiero hacer este pedido:\n\n";
-    mensaje += "Pedido #" + pedido.id + "\n";
+    mensaje += pedido.id ? "Pedido #" + pedido.id + "\n" : "Pedido sin registrar en la página\n";
     mensaje += "Nombre: " + pedido.customer_name + "\nTeléfono de contacto: " + pedido.customer_phone + "\n";
     mensaje += "Entrega: " + pedido.delivery + "\n";
     if (pedido.delivery === "Entrega a domicilio") {
@@ -486,11 +486,28 @@ function construirMensaje(pago, pedido) {
     } else {
         mensaje += "\nMétodo de pago: Efectivo";
     }
+    if (!pedido.id) mensaje += "\n\nAviso: no se pudo guardar automáticamente en el panel. Confirma este pedido por WhatsApp.";
     return mensaje;
 }
 
 let pedidoGuardado = null;
 let enviando = false;
+
+function crearPedidoLocal(pago) {
+    const entrega = document.querySelector('input[name="entrega"]:checked').value;
+    return {
+        payment: pago,
+        customer_name: document.getElementById("cliente-nombre").value.trim(),
+        customer_phone: document.getElementById("cliente-telefono").value.trim(),
+        delivery: entrega,
+        address: entrega === "Entrega a domicilio" ? entradaDireccion.value.trim() : "",
+        maps_url: entrega === "Entrega a domicilio" ? entradaMaps.value.trim() : "",
+        total: calcularTotal(),
+        items: Object.values(carrito).map(function (item) {
+            return { name: item.nombre, quantity: item.cantidad, price: item.precio };
+        })
+    };
+}
 
 async function guardarPedido(pago) {
     if (!supabaseClient) throw new Error("La conexión de pedidos todavía no está configurada. Contacta al negocio por WhatsApp.");
@@ -546,7 +563,11 @@ document.getElementById("enviar-pedido").addEventListener("click", function () {
         if (pago === "QR") abrirQR();
         else abrirWhatsApp(pedido);
     }).catch(function (error) {
-        aviso.textContent = "No se pudo registrar el pedido: " + error.message;
+        const pedido = crearPedidoLocal(pago);
+        pedidoGuardado = pedido;
+        aviso.textContent = "No se guardó en el panel (" + error.message + "). Puedes continuar por WhatsApp; confirma el pedido con el negocio.";
+        if (pago === "QR") abrirQR();
+        else abrirWhatsApp(pedido);
     }).finally(function () {
         enviando = false;
         botonEnvio.disabled = false;
@@ -556,7 +577,9 @@ document.getElementById("enviar-pedido").addEventListener("click", function () {
 document.getElementById("pagado-qr").addEventListener("click", function () {
     if (pedidoGuardado) {
         abrirWhatsApp(pedidoGuardado);
-        aviso.textContent = "Pedido #" + pedidoGuardado.id + " enviado por WhatsApp. El negocio verificará el pago.";
+        aviso.textContent = pedidoGuardado.id
+            ? "Pedido #" + pedidoGuardado.id + " enviado por WhatsApp. El negocio verificará el pago."
+            : "Continúa por WhatsApp y confirma el pedido con el negocio; no se guardó automáticamente en el panel.";
     }
     cerrarQR();
 });
