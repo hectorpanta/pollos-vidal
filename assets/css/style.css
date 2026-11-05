@@ -507,8 +507,9 @@ footer {
 .consentimiento input { margin-top: 3px; flex-shrink: 0; width: 18px; height: 18px; }
 .consentimiento a { color: var(--rojo); }
 
-.carrito-aviso { color: #c62828; font-size: 14px; font-weight: bold; margin: 0 0 8px 0; min-height: 0; }
+.carrito-aviso { color: #c62828; font-size: 14px; font-weight: bold; margin: 0 0 8px 0; min-height: 0; flex: 0 0 auto; line-height: 1.4; overflow-wrap: anywhere; }
 .carrito-aviso:empty { display: none; }
+#enviar-pedido, #vaciar-carrito { flex-shrink: 0; }
 
 /* ---------- VENTANA QR ---------- */
 .modal-qr {
