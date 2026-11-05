@@ -160,13 +160,27 @@
     container.innerHTML = orders.map(order => {
       const when = new Date(order.created_at);
       const date = Number.isNaN(when.getTime()) ? order.created_at : new Intl.DateTimeFormat('es-BO',{dateStyle:'medium',timeStyle:'short',timeZone:'America/La_Paz'}).format(when);
-      const lines = order.items.map(item => `<li>${item.quantity} × ${safe(item.product_name)} — ${fmt.format(item.quantity * item.unit_price)} Bs</li>`).join('');
+      const lines = order.items.map(item => '<li>' + item.quantity + ' × ' + safe(item.product_name) + ' — ' + fmt.format(item.quantity * item.unit_price) + ' Bs</li>').join('');
       const mapsHref = googleMapsHref(order.maps_url);
       const deliveryDetails = order.delivery === 'Entrega a domicilio'
-        ? `<div class="order-location"><strong>Dirección:</strong> ${safe(order.address || 'No indicada')}<br>${mapsHref ? `<a class="map-link" href="${safe(mapsHref)}" target="_blank" rel="noopener noreferrer">Abrir ubicación en Google Maps ↗</a>` : '<span class="muted">No se compartió enlace de ubicación.</span>'}</div>`
+        ? '<div class="order-location"><strong>Dirección:</strong> ' + safe(order.address || 'No indicada') + '<br>' + (mapsHref ? '<a class="map-link" href="' + safe(mapsHref) + '" target="_blank" rel="noopener noreferrer">Abrir ubicación en Google Maps ↗</a>' : '<span class="muted">No se compartió enlace de ubicación.</span>') + '</div>'
         : '';
-      const paymentText = order.payment_status === 'recibido' ? 'Recibido' : 'Pendiente';
-      return `<article class="order"><div class="order-top"><div><h3><span class="order-id">#${order.id}</span> · ${safe(order.customer_name)}</h3><div class="order-date">${safe(date)}</div></div><span class="pill">${safe(statusText[order.status] || order.status)}</span></div><div class="order-meta"><span>☎ ${safe(order.customer_phone)}</span><span>· ${safe(order.delivery)}</span><span>· Método: ${safe(order.payment)}</span></div>${deliveryDetails}<ul class="order-lines">${lines}</ul><div class="order-bottom"><strong>${fmt.format(order.total)} Bs</strong><div class="order-actions"><label>Estado del pedido<select class="status-select" data-order-status="${order.id}">${Object.entries(statusText).map(([key,label]) => `<option value="${key}" ${key === order.status ? 'selected' : ''}>${label}</option>`).join('')}</select></label><label>Estado del pago<select class="status-select" data-order-payment="${order.id}"><option value="pendiente" ${order.payment_status !== 'recibido' ? 'selected' : ''}>Pendiente</option><option value="recibido" ${order.payment_status === 'recibido' ? 'selected' : ''}>Recibido</option></select></label><span class="payment-current">Pago: ${safe(paymentText)}</span></div></div></article>`;
+      const nextOrderAction = {
+        nuevo: ['confirmado', 'Guardar pedido'],
+        confirmado: ['preparando', 'Empezar preparación'],
+        preparando: ['listo', 'Marcar listo'],
+        listo: ['entregado', 'Marcar entregado']
+      }[order.status];
+      const orderActions = nextOrderAction
+        ? '<button class="order-action order-action-main" type="button" data-order-status="' + order.id + '" data-next-status="' + nextOrderAction[0] + '">' + nextOrderAction[1] + '</button><button class="order-action order-action-cancel" type="button" data-order-status="' + order.id + '" data-next-status="cancelado">Desechar</button>'
+        : '<span class="order-action-finished">' + (order.status === 'cancelado' ? 'Pedido cancelado' : 'Pedido entregado') + '</span>';
+      const paymentAction = order.payment_status === 'recibido'
+        ? '<span class="payment-current payment-done">✓ Pago recibido</span>'
+        : order.status === 'cancelado'
+          ? '<span class="payment-current">Pago pendiente</span>'
+          : '<button class="order-action order-action-payment" type="button" data-order-payment="' + order.id + '" data-next-payment="recibido">Marcar recibido</button>';
+      const paymentMethod = order.payment === 'Efectivo' ? 'Efectivo' : 'QR';
+      return '<article class="order"><div class="order-top"><div><h3><span class="order-id">#' + order.id + '</span> · ' + safe(order.customer_name) + '</h3><div class="order-date">' + safe(date) + '</div></div><span class="pill">' + safe(statusText[order.status] || order.status) + '</span></div><div class="order-meta"><span>☎ ' + safe(order.customer_phone) + '</span><span>· ' + safe(order.delivery) + '</span><span>· Pago por ' + safe(paymentMethod) + '</span></div>' + deliveryDetails + '<ul class="order-lines">' + lines + '</ul><div class="order-bottom"><strong>' + fmt.format(order.total) + ' Bs</strong><div class="order-actions">' + orderActions + paymentAction + '</div></div></article>';
     }).join('');
   }
   function googleMapsHref(value) {
@@ -185,14 +199,29 @@
   function renderProducts() {
     document.getElementById('products').innerHTML = dashboard.products.map(product => `<form class="product-row" data-product="${safe(product.id)}"><div><div class="product-name">${safe(product.name)}</div><div class="muted">Actual: ${fmt.format(product.price)} Bs</div></div><div class="product-controls"><input aria-label="Nombre del producto" type="text" name="name" value="${safe(product.name)}" maxlength="80" required><input aria-label="Precio en bolivianos" type="number" name="price" min="0" max="10000" step="1" value="${product.price}" required><label><input type="checkbox" name="active" ${product.active ? 'checked' : ''}>Disponible</label><button class="primary" type="submit">Guardar</button></div></form>`).join('');
   }
-  document.getElementById('orders').addEventListener('change', async event => {
-    const select = event.target.closest('[data-order-status], [data-order-payment]'); if (!select) return;
-    const isPayment = select.hasAttribute('data-order-payment');
+  document.getElementById('orders').addEventListener('click', async event => {
+    const button = event.target.closest('[data-order-status], [data-order-payment]');
+    if (!button) return;
+    const isPayment = button.hasAttribute('data-order-payment');
+    const orderId = isPayment ? button.dataset.orderPayment : button.dataset.orderStatus;
     const column = isPayment ? 'payment_status' : 'status';
-    const orderId = isPayment ? select.dataset.orderPayment : select.dataset.orderStatus;
-    const {error} = await client.from('orders').update({[column]:select.value}).eq('id',orderId);
-    if (error) globalError(errorMessage(error));
-    await loadDashboard();
+    const value = isPayment ? button.dataset.nextPayment : button.dataset.nextStatus;
+    if (value === 'cancelado' && !window.confirm('¿Desechar este pedido? Se cancelará, pero quedará guardado en el historial.')) return;
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Guardando…';
+    globalError('');
+    try {
+      const {data,error} = await client.from('orders').update({[column]:value}).eq('id',orderId).select('id').maybeSingle();
+      if (error) throw error;
+      if (!data) throw new Error('No se actualizó el pedido. Comprueba que tu sesión siga activa.');
+      await loadDashboard();
+      globalError(isPayment ? 'Pago marcado como recibido.' : value === 'cancelado' ? 'Pedido cancelado y conservado en el historial.' : 'Pedido guardado.');
+    } catch (err) {
+      globalError('No se pudo guardar el cambio: ' + errorMessage(err));
+      button.disabled = false;
+      button.textContent = originalText;
+    }
   });
   document.getElementById('products').addEventListener('submit', async event => {
     const form = event.target.closest('[data-product]'); if (!form) return;

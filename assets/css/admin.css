@@ -5,3 +5,6 @@
 .login-recovery{border:0;background:transparent;color:#8f3218;text-decoration:underline;font:inherit;cursor:pointer;padding:4px}.login-recovery:disabled{opacity:.65;cursor:wait}
 @media(max-width:720px){.month-control{align-items:flex-start;flex-direction:column}}
 .order-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px}.payment-current{color:#746c65;font-size:13px}
+
+.order-actions{justify-content:flex-start;gap:8px}.order-action{border:1px solid #ded8d0;border-radius:9px;background:#fff;padding:9px 13px;color:#342a23;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.order-action:hover{filter:brightness(.96)}.order-action:disabled{opacity:.65;cursor:wait}.order-action-main{background:#a93414;border-color:#a93414;color:#fff}.order-action-payment{background:#e8f5ec;border-color:#acd3b5;color:#245c31}.order-action-cancel{color:#9d3218;border-color:#ddb7aa}.order-action-finished{color:#746c65;font-size:13px}.payment-done{color:#276638;font-size:13px;font-weight:700}
+
