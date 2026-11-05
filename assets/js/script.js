@@ -506,21 +506,23 @@ async function guardarPedido(pago) {
     };
     const respuesta = await supabaseClient.functions.invoke("create-order", { body: datos });
     const resultado = respuesta.data || {};
-    if (respuesta.error || !resultado.order) throw new Error(resultado.error?.message || resultado.error || "No se pudo registrar el pedido. Inténtalo de nuevo.");
+    if (respuesta.error) {
+        let detalle = respuesta.error.message || "";
+        const context = respuesta.error.context;
+        if (context && typeof context.clone === "function") {
+            const cuerpo = await context.clone().json().catch(() => null);
+            if (typeof cuerpo?.error === "string") detalle = cuerpo.error;
+        }
+        throw new Error(detalle || "No se pudo registrar el pedido. Inténtalo de nuevo.");
+    }
+    if (!resultado.order) throw new Error("El sistema no confirmó el registro del pedido. Inténtalo de nuevo.");
     pedidoGuardado = resultado.order;
     return pedidoGuardado;
 }
 
-function abrirWhatsApp(pedido, ventana) {
-    const url = enlaceWhatsApp(construirMensaje(pedido.payment, pedido));
-    if (ventana && !ventana.closed) {
-        ventana.opener = null;
-        ventana.location.href = url;
-    } else {
-        window.location.href = url;
-    }
+function abrirWhatsApp(pedido) {
+    window.location.href = enlaceWhatsApp(construirMensaje(pedido.payment, pedido));
 }
-
 document.getElementById("enviar-pedido").addEventListener("click", function () {
     aviso.textContent = "";
     if (Object.keys(carrito).length === 0) {
@@ -538,15 +540,13 @@ document.getElementById("enviar-pedido").addEventListener("click", function () {
     const botonEnvio = document.getElementById("enviar-pedido");
     botonEnvio.disabled = true;
     const pago = metodoPago();
-    const ventana = pago === "QR" ? null : window.open("about:blank", "_blank");
     aviso.textContent = "Registrando tu pedido…";
     guardarPedido(pago).then(function (pedido) {
         aviso.textContent = "Pedido #" + pedido.id + " registrado. " + (pago === "QR" ? "Completa el pago y continúa por WhatsApp." : "Abriendo WhatsApp…");
         if (pago === "QR") abrirQR();
-        else abrirWhatsApp(pedido, ventana);
+        else abrirWhatsApp(pedido);
     }).catch(function (error) {
-        if (ventana && !ventana.closed) ventana.close();
-        aviso.textContent = error.message;
+        aviso.textContent = "No se pudo registrar el pedido: " + error.message;
     }).finally(function () {
         enviando = false;
         botonEnvio.disabled = false;
@@ -555,7 +555,7 @@ document.getElementById("enviar-pedido").addEventListener("click", function () {
 
 document.getElementById("pagado-qr").addEventListener("click", function () {
     if (pedidoGuardado) {
-        abrirWhatsApp(pedidoGuardado, window.open("about:blank", "_blank"));
+        abrirWhatsApp(pedidoGuardado);
         aviso.textContent = "Pedido #" + pedidoGuardado.id + " enviado por WhatsApp. El negocio verificará el pago.";
     }
     cerrarQR();
